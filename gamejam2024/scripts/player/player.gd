@@ -13,7 +13,11 @@ extends CharacterBody2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
 
-var dashCharge = 0.0
+var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
+var dashCharge := 0.0
+
+const minScale := Vector2(0.2, 0.2)
+const maxScale := Vector2(1000, 1000)
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -42,6 +46,7 @@ func _physics_process(delta: float) -> void:
 			if(Input.is_action_pressed("left_click")) :
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
+				create_chunk(dash_direction * -1, sprite.scale * 0.5)
 				playerState = PLAYER_STATES.DASH
 				
 		PLAYER_STATES.DASH : 
@@ -51,11 +56,23 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
+func create_chunk(direction: Vector2, size: Vector2) : 
+	var newChunkInstance: Food = fleshChunkScene.instantiate()
+	newChunkInstance.size_scale = size
+	newChunkInstance.global_position = global_position + (direction * 100)
+	grow(-0.2)
+	get_tree().root.add_child(newChunkInstance)
+	
 func grow(rate: float) -> void :
-	var growthVector = Vector2(rate, rate)
-	sprite.scale += growthVector
-	collisionShape.scale += growthVector
-	arrow_sprite.scale += growthVector
+	var growthVector = sprite.scale + Vector2(rate, rate)
+	var newScale = clamp(growthVector, minScale, maxScale)
+	
+	sprite.scale = newScale
+	collisionShape.scale = newScale
+	arrow_sprite.scale = newScale
+	
+	if (growthVector < minScale) :
+		die()
 	
 func die() : 
 	sprite.modulate = Color(0, 0, 254, 1)

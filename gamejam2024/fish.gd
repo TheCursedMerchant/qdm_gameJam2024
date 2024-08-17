@@ -5,9 +5,8 @@ extends "res://scripts/food/food.gd"
 @export var direction := Vector2.RIGHT
 
 func _ready() -> void:
-	var randomScale := Vector2(randf_range(0.5, 2), randf_range(0.5, 2))
-	sprite.scale = randomScale
-	collisionShape.scale = randomScale
+	size_scale = Vector2(randf_range(0.5, 2), randf_range(0.5, 2))
+	super._ready()
 
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed

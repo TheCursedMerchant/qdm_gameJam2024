@@ -3,9 +3,15 @@ extends Area2D
 
 @export_category("Stats")
 @export var growth_value = 0.2
+@export var size_scale = Vector2.ONE
 
 @onready var sprite = $Sprite2D
 @onready var collisionShape = $CollisionShape2D
+
+func _ready() -> void :
+	connect("body_entered", _on_body_entered)
+	sprite.scale = size_scale
+	collisionShape.scale = size_scale
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
