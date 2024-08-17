@@ -5,6 +5,7 @@ extends Area2D
 @export var growth_value = 0.2
 
 @onready var sprite = $Sprite2D
+@onready var collisionShape = $CollisionShape2D
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
