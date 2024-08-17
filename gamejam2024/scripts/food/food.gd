@@ -2,7 +2,7 @@ class_name Food
 extends Area2D
 
 @export_category("Stats")
-@export var growth_value = 0.2
+@export var growth_value = 0.05
 @export var size_scale = Vector2.ONE
 
 @onready var sprite = $Sprite2D
@@ -20,7 +20,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if(body.get_groups().has("Player")) :
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.sprite.scale
-		if(sprite_size <=  body_sprite_size) :
+		if(sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE) :
 			player.grow(growth_value)
 			queue_free()
 		else :

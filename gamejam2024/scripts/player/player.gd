@@ -2,10 +2,10 @@ class_name Player
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var SPEED := 500.0
+@export var speed := 750.0
 @export var scale_size := Vector2.ONE
-@export var dashSpeed := 2800.0
-@export var playerState := PLAYER_STATES.IDLE
+@export var dashSpeed := 3500.0
+@export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
 
@@ -29,31 +29,33 @@ func _physics_process(delta: float) -> void:
 	
 	match playerState :
 		
-		PLAYER_STATES.IDLE :  
+		System.PLAYER_STATES.IDLE :  
+			Engine.time_scale = 1.0
 			if(Input.is_action_just_pressed("left_click")) :
-				playerState = PLAYER_STATES.CHARGE
+				playerState = System.PLAYER_STATES.CHARGE
 			if h_direction:
-				velocity.x = h_direction * SPEED
+				velocity.x = (h_direction * speed) / scale_size.x
 			else :
-				velocity.x = move_toward(velocity.x, 0, SPEED / 5)
+				velocity.x = move_toward(velocity.x, 0, speed / 5)
 				
 			if v_direction :
-				velocity.y = v_direction * SPEED
+				velocity.y = (v_direction * speed) / scale_size.y
 			else :
-				velocity.y = move_toward(velocity.y, 0, SPEED / 5)
+				velocity.y = move_toward(velocity.y, 0, speed / 5)
 				
-		PLAYER_STATES.CHARGE :
+		System.PLAYER_STATES.CHARGE :
+			Engine.time_scale = 0.3
 			velocity = Vector2.ZERO
 			if(Input.is_action_pressed("left_click")) :
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
-				create_chunk(dash_direction * -1, scale_size * 0.5, dashCharge / 2)
-				playerState = PLAYER_STATES.DASH
+				create_chunk(dash_direction * -1, scale_size * 0.5, dashCharge / 3)
+				playerState = System.PLAYER_STATES.DASH
 				
-		PLAYER_STATES.DASH : 
+		System.PLAYER_STATES.DASH : 
 			velocity += (dash_direction * dashSpeed * dashCharge).round()
 			dashCharge = 0
-			playerState = PLAYER_STATES.IDLE
+			playerState = System.PLAYER_STATES.IDLE
 		
 	move_and_slide()
 	
@@ -88,8 +90,3 @@ func die() :
 	sprite.modulate = Color(0, 0, 254, 1)
 	print("Player Died!")
 	
-enum PLAYER_STATES {
-	IDLE,
-	CHARGE,
-	DASH
-}
