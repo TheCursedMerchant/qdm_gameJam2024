@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://da2l51lcrdr4o"]
+
+[ext_resource type="Script" path="res://POC/test_fish_player.gd" id="1_gonka"]
+[ext_resource type="Texture2D" uid="uid://dv6c3vcs2urbc" path="res://POC/test_fish_sprite.png" id="1_qnpgh"]
+[ext_resource type="Script" path="res://POC/collision.gd" id="3_mo2wp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjqca"]
+size = Vector2(128, 128)
+
+[node name="Fish_Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_gonka")
+
+[node name="Fish_Player" type="Sprite2D" parent="."]
+texture = ExtResource("1_qnpgh")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cjqca")
+script = ExtResource("3_mo2wp")

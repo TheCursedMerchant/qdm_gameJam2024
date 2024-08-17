@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://jua71emyyxlc"]
+
+[ext_resource type="PackedScene" uid="uid://dnihhm08amfoo" path="res://POC/test_fish_target.tscn" id="1_pqcag"]
+[ext_resource type="PackedScene" uid="uid://da2l51lcrdr4o" path="res://POC/test_fish_player.tscn" id="2_ttamg"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Fish_Target" parent="." instance=ExtResource("1_pqcag")]
+position = Vector2(898, 100)
+
+[node name="Fish_Player" parent="." instance=ExtResource("2_ttamg")]
+position = Vector2(576, 288)

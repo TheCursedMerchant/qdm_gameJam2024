@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnihhm08amfoo"]
+
+[ext_resource type="Texture2D" uid="uid://cw15hnaafx4ki" path="res://POC/test_target_fish_sprite.png" id="1_46d21"]
+[ext_resource type="Script" path="res://POC/test_fish_target_movement.gd" id="1_aufke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjqca"]
+size = Vector2(117, 116)
+
+[node name="Fish_Target" type="Area2D"]
+script = ExtResource("1_aufke")
+
+[node name="Fish_Target" type="Sprite2D" parent="."]
+texture = ExtResource("1_46d21")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cjqca")
