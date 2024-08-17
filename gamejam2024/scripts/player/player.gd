@@ -79,7 +79,6 @@ func grow(rate: float) -> void :
 	var newScale = clamp(growthVector, minScale, maxScale)
 	
 	scale_size = newScale
-	#sprite.scale = scale_size
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
 	
