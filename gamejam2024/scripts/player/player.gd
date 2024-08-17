@@ -2,12 +2,12 @@ class_name Player
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var SPEED = 500.0
-@export var size = 1
-@export var dashSpeed = 2800.0
-@export var playerState = PLAYER_STATES.IDLE
-@export var maxDashCharge = 1.0
-@export var dashChargeRate = 0.1
+@export var SPEED := 500.0
+@export var scale_size := Vector2.ONE
+@export var dashSpeed := 2800.0
+@export var playerState := PLAYER_STATES.IDLE
+@export var maxDashCharge := 1.0
+@export var dashChargeRate := 0.1
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
@@ -15,6 +15,7 @@ extends CharacterBody2D
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
+var overShrink := false
 
 const minScale := Vector2(0.2, 0.2)
 const maxScale := Vector2(1000, 1000)
@@ -46,7 +47,7 @@ func _physics_process(delta: float) -> void:
 			if(Input.is_action_pressed("left_click")) :
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
-				create_chunk(dash_direction * -1, sprite.scale * 0.5)
+				create_chunk(dash_direction * -1, scale_size * 0.5, dashCharge / 2)
 				playerState = PLAYER_STATES.DASH
 				
 		PLAYER_STATES.DASH : 
@@ -56,23 +57,32 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func create_chunk(direction: Vector2, size: Vector2) : 
+func create_chunk(direction: Vector2, size: Vector2, shrink_amount: float) : 
 	var newChunkInstance: Food = fleshChunkScene.instantiate()
 	newChunkInstance.size_scale = size
 	newChunkInstance.global_position = global_position + (direction * 100)
-	grow(-0.2)
+	grow(-shrink_amount)
 	get_tree().root.add_child(newChunkInstance)
 	
 func grow(rate: float) -> void :
-	var growthVector = sprite.scale + Vector2(rate, rate)
+	var growthVector = scale_size + Vector2(rate, rate)
 	var newScale = clamp(growthVector, minScale, maxScale)
 	
-	sprite.scale = newScale
-	collisionShape.scale = newScale
-	arrow_sprite.scale = newScale
+	scale_size = newScale
+	sprite.scale = scale_size
+	collisionShape.scale = scale_size
+	arrow_sprite.scale = scale_size
 	
+	if(rate > 0) :
+		overShrink = false
+		
 	if (growthVector < minScale) :
-		die()
+		if (overShrink) :
+			die()
+		else : 
+			print("Max shrink!")
+			overShrink = true
+		
 	
 func die() : 
 	sprite.modulate = Color(0, 0, 254, 1)

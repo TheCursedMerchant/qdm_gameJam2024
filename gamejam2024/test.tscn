@@ -13,6 +13,7 @@ position = Vector2(584, 371)
 
 [node name="Food" parent="." instance=ExtResource("2_vbv54")]
 position = Vector2(692, 382)
+scale = Vector2(1, 1)
 
 [node name="Fish" parent="." instance=ExtResource("4_d8enf")]
 position = Vector2(-136, 452)
