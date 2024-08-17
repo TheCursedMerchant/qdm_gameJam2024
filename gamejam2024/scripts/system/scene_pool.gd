@@ -8,7 +8,7 @@ var lastSceneIndex : int = 0
 func _init(_poolSize : int) -> void:
 	poolSize = _poolSize
 	
-func addAtPosition(_pos : Vector2, createScene: Callable, reset: Callable = func() :) :
+func addAtPosition(_pos : Vector2, createScene: Callable) :
 	if pool.size() < poolSize : 
 		var newScene = createScene.call()
 		pool.append(newScene)
@@ -19,8 +19,10 @@ func addAtPosition(_pos : Vector2, createScene: Callable, reset: Callable = func
 		
 		if(availableScene.has_method("reactivate")) : 
 			availableScene.reactivate()
-		reset.call()
-		
+			
 		lastSceneIndex += 1
 		if lastSceneIndex >= poolSize : 
 			lastSceneIndex = 0
+			
+func getLastScene() : 
+	return pool[lastSceneIndex]

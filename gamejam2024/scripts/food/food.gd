@@ -13,8 +13,7 @@ var isActive := true
 
 func _ready() -> void :
 	connect("body_entered", _on_body_entered)
-	sprite.scale = size_scale
-	collisionShape.scale = size_scale
+	updateSize(size_scale)
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
@@ -37,3 +36,9 @@ func deactivate() :
 	
 func reactivate() :
 	isActive = true
+	
+func updateSize(newSize: Vector2) :
+	size_scale = newSize
+	sprite.scale = size_scale
+	collisionShape.scale = size_scale 
+	

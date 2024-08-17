@@ -15,3 +15,7 @@ func _physics_process(delta: float) -> void :
 		global_position += (direction * speed) * delta
 	#if(global_position < Vector2(-100, 100) or global_position > (get_viewport_rect().size + Vector2(100, 100)) ) : 
 		#queue_free()
+		
+func reactivate() :
+	var size_scale_value = randf_range(0.25, 4)
+	updateSize(Vector2(size_scale_value,size_scale_value))
