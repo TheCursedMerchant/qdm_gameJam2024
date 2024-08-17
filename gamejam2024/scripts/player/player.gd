@@ -17,8 +17,10 @@ var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
 
-const minScale := Vector2(0.2, 0.2)
+const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
+const minScaleSpeed := 0.3
+const maxScaleSpeed := 4
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -38,12 +40,12 @@ func _physics_process(delta: float) -> void:
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = (h_direction * speed) / (scale_size.x / 2)
-			else :
+				velocity.x = (h_direction * speed) / clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+			else : 
 				velocity.x = move_toward(velocity.x, 0, speed / 5)
 				
 			if v_direction :
-				velocity.y = (v_direction * speed) / scale_size.y
+				velocity.y = (v_direction * speed) / clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
 			else :
 				velocity.y = move_toward(velocity.y, 0, speed / 5)
 				
