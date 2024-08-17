@@ -2,7 +2,7 @@ class_name Food
 extends Area2D
 
 @export_category("Stats")
-@export var growth_value = 0.05
+@export var growth_value = 0.08
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
 
