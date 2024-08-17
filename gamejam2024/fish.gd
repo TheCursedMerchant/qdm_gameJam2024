@@ -1,3 +1,4 @@
+class_name Fish
 extends "res://scripts/food/food.gd"
 
 @export_category("Movement")
@@ -10,7 +11,7 @@ func _ready() -> void :
 	super._ready()
 
 func _physics_process(delta: float) -> void :
-	global_position += (direction * speed) * delta
+	if(isActive) : 
+		global_position += (direction * speed) * delta
 	#if(global_position < Vector2(-100, 100) or global_position > (get_viewport_rect().size + Vector2(100, 100)) ) : 
 		#queue_free()
-	
