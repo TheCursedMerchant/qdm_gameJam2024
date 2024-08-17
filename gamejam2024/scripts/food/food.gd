@@ -29,11 +29,11 @@ func _on_body_entered(body: Node2D) -> void:
 			# Adds a point to the player total score.
 			System.score += 1
 			#queue_free()
-			_deactivate()
+			deactivate()
 		else :
 			player.die()
 			
-func _deactivate() : 
+func deactivate() : 
 	isActive = false
 	global_position = off_screen_location
 	
