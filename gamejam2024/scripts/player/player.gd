@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export_category("Movement")
 @export var speed := 750.0
 @export var scale_size := Vector2.ONE
-@export var dashSpeed := 3500.0
+@export var dashSpeed := 3000.0
 @export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
@@ -34,7 +34,11 @@ func _physics_process(delta: float) -> void:
 			if(Input.is_action_just_pressed("left_click")) :
 				playerState = System.PLAYER_STATES.CHARGE
 			if h_direction:
-				velocity.x = (h_direction * speed) / scale_size.x
+				if h_direction > 0 : 
+					sprite.flip_h = false
+				else : 
+					sprite.flip_h = true 
+				velocity.x = (h_direction * speed) / (scale_size.x / 2)
 			else :
 				velocity.x = move_toward(velocity.x, 0, speed / 5)
 				
@@ -56,6 +60,10 @@ func _physics_process(delta: float) -> void:
 			velocity += (dash_direction * dashSpeed * dashCharge).round()
 			dashCharge = 0
 			playerState = System.PLAYER_STATES.IDLE
+			
+	# Squash and Stretch
+	sprite.scale.x = lerp(sprite.scale.x, scale_size.x, 0.1)
+	sprite.scale.y = lerp(sprite.scale.y, scale_size.y, 0.1)
 		
 	move_and_slide()
 	
@@ -71,9 +79,10 @@ func grow(rate: float) -> void :
 	var newScale = clamp(growthVector, minScale, maxScale)
 	
 	scale_size = newScale
-	sprite.scale = scale_size
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
+	
+	sprite.scale =  clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
 	if(rate > 0) :
 		overShrink = false
@@ -85,8 +94,7 @@ func grow(rate: float) -> void :
 			print("Max shrink!")
 			overShrink = true
 		
-	
 func die() : 
-	sprite.modulate = Color(0, 0, 254, 1)
+	#sprite.modulate = Color(0, 0, 254, 1)
 	print("Player Died!")
 	
