@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vs2nm"]
 size = Vector2(64, 64)
 
-[node name="Food" type="Area2D"]
+[node name="Food" type="Area2D" groups=["Food"]]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_74ikv")
 growth_value = 0.1

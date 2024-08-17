@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqos1"]
 size = Vector2(64, 64)
 
-[node name="Fish" type="Area2D"]
+[node name="Fish" type="Area2D" groups=["Enemy"]]
 modulate = Color(1, 0.0333334, 0, 1)
 script = ExtResource("1_ltvon")
 

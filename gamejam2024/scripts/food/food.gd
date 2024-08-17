@@ -26,11 +26,12 @@ func _on_body_entered(body: Node2D) -> void:
 		if(sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE) :
 			player.grow(growth_value)
 			System.score += 1
-			_deactivate()
+			deactivate()
+
 		else :
 			player.die()
 			
-func _deactivate() : 
+func deactivate() : 
 	isActive = false
 	global_position = off_screen_location
 	
