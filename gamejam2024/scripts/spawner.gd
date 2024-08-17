@@ -1,10 +1,7 @@
 class_name Spawner
 extends Node2D
 
-# Loading in the fish spawner.
-var fish_spawn = preload("res://scenes/fish.tscn")
-
-# Dynamically create direction.
+var fish_scene = preload("res://scenes/fish.tscn")
 var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
@@ -15,7 +12,6 @@ var starting_position_range = randi_range(-250,0)
 
 var spawnPool : ScenePool = ScenePool.new(3)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if initial_start:
 		spawn_timer.start()
@@ -27,20 +23,12 @@ func _process(delta: float) -> void:
 		global_position = Vector2(get_viewport().get_visible_rect().size.x + 25, 0)
 
 func _on_timer_timeout() -> void:
-#	Reset the timer.
 	spawn_timer.start(randf_range(.5,2.5))
-	
-	# Spawn the fish.
 	spawnPool.addAtPosition(Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y)), spawn_fish)
-	#var new_fish = fish_spawn.instantiate()
-	#new_fish.direction = fish_direction
-	#new_fish.position = Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y))
-	#add_child(new_fish)
 	
 func spawn_fish() -> Fish: 
-	var new_fish : Fish = fish_spawn.instantiate()
+	var new_fish : Fish = fish_scene.instantiate()
 	new_fish.direction = fish_direction
-	#new_fish.position = Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y))
 	add_child(new_fish)
 	return new_fish
 	
