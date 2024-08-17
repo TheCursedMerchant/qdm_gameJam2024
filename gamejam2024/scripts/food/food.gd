@@ -4,9 +4,12 @@ extends Area2D
 @export_category("Stats")
 @export var growth_value = 0.05
 @export var size_scale = Vector2.ONE
+@export var off_screen_location := Vector2(-1000, 0)
 
 @onready var sprite = $Sprite2D
 @onready var collisionShape = $CollisionShape2D
+
+var isActive := true
 
 func _ready() -> void :
 	connect("body_entered", _on_body_entered)
@@ -25,6 +28,14 @@ func _on_body_entered(body: Node2D) -> void:
 			
 			# Adds a point to the player total score.
 			System.score += 1
-			queue_free()
+			#queue_free()
+			_deactivate()
 		else :
 			player.die()
+			
+func _deactivate() : 
+	isActive = false
+	global_position = off_screen_location
+	
+func reactivate() :
+	isActive = true

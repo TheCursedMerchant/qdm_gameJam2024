@@ -13,6 +13,7 @@ var starting_position_range = randi_range(-250,0)
 
 @onready var spawn_timer := $Timer
 
+var spawnPool : ScenePool = ScenePool.new(3)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -30,7 +31,16 @@ func _on_timer_timeout() -> void:
 	spawn_timer.start(randf_range(.5,2.5))
 	
 	# Spawn the fish.
-	var new_fish = fish_spawn.instantiate()
+	spawnPool.addAtPosition(Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y)), spawn_fish)
+	#var new_fish = fish_spawn.instantiate()
+	#new_fish.direction = fish_direction
+	#new_fish.position = Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y))
+	#add_child(new_fish)
+	
+func spawn_fish() -> Fish: 
+	var new_fish : Fish = fish_spawn.instantiate()
 	new_fish.direction = fish_direction
-	new_fish.position = Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y))
+	#new_fish.position = Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y))
 	add_child(new_fish)
+	return new_fish
+	
