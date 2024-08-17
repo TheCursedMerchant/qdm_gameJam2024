@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_3yksk"]
 [ext_resource type="PackedScene" uid="uid://bjo41ejls2sqx" path="res://scenes/player.tscn" id="1_okob1"]
 [ext_resource type="PackedScene" uid="uid://d33qco2a014ry" path="res://scenes/food.tscn" id="2_vbv54"]
-[ext_resource type="PackedScene" uid="uid://dgc72cgked75s" path="res://scenes/fish.tscn" id="4_d8enf"]
+[ext_resource type="PackedScene" uid="uid://rfli5fbso7gy" path="res://scenes/spawner.tscn" id="5_87bdc"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
@@ -15,16 +15,9 @@ position = Vector2(584, 371)
 position = Vector2(692, 382)
 scale = Vector2(1, 1)
 
-[node name="Fish" parent="." instance=ExtResource("4_d8enf")]
-position = Vector2(-136, 452)
+[node name="Spawner" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
 
-[node name="Fish2" parent="." instance=ExtResource("4_d8enf")]
-position = Vector2(1537, 421)
-direction = Vector2(-1, 0)
-
-[node name="Fish3" parent="." instance=ExtResource("4_d8enf")]
-position = Vector2(1243, 127)
-direction = Vector2(-1, 0)
-
-[node name="Fish4" parent="." instance=ExtResource("4_d8enf")]
-position = Vector2(-328, 153)
+[node name="Spawner2" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+fish_direction = Vector2(-1, 0)

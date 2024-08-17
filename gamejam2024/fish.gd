@@ -5,8 +5,10 @@ extends "res://scripts/food/food.gd"
 @export var direction := Vector2.RIGHT
 
 func _ready() -> void:
-	size_scale = Vector2(randf_range(0.5, 2), randf_range(0.5, 2))
+	var size_scale_value = randf_range(0.5, 2)
+	size_scale = Vector2(size_scale_value,size_scale_value)
 	super._ready()
 
 func _physics_process(delta: float) -> void:
 	global_position += direction * speed
+	
