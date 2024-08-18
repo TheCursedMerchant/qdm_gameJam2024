@@ -48,3 +48,4 @@ scale = Vector2(31, 1)
 [node name="Scoreboard" parent="." instance=ExtResource("5_qsoqg")]
 
 [node name="Death" parent="." instance=ExtResource("6_0r0ua")]
+visible = false

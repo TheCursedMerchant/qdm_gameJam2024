@@ -2,7 +2,8 @@ class_name Food
 extends Area2D
 
 @export_category("Stats")
-@export var growth_value = 0.08
+@export var growth_value = 0.1
+@export var experience := 34
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
 
@@ -23,12 +24,11 @@ func _on_body_entered(body: Node2D) -> void:
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.sprite.scale
 		if(sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE) :
-			player.grow(growth_value)
+			player.grow(growth_value, experience)
 			System.score += 1
 			deactivate()
-
 		else :
-			player.die()
+			player.take_damage()
 			
 func deactivate() : 
 	isActive = false

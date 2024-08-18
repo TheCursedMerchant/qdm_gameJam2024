@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
+@export var speedGrowth = 50.00
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
@@ -17,6 +18,9 @@ var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
+var experience := 0
+var evolveExp := 100
+var evolveLevel := 0
 
 const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
@@ -78,8 +82,7 @@ func addChunk() -> Food :
 	get_tree().root.add_child(newChunkInstance)
 	return newChunkInstance
 	
-	
-func grow(rate: float) -> void :
+func grow(rate: float, exp: float = 0) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
 	var newScale = clamp(growthVector, minScale, maxScale)
 	
@@ -91,15 +94,29 @@ func grow(rate: float) -> void :
 	
 	if(rate > 0) :
 		overShrink = false
+		experience += exp
+		if(experience >= evolveExp) : 
+			evolve()
 		
 	if (growthVector < minScale) :
 		if (overShrink) :
-			die()
+			take_damage()
 		else : 
 			print("Max shrink!")
 			overShrink = true
+			
+func evolve() :
+	print("Evolution!")
+	evolveLevel += 1
+	experience = 0
+	speed += speedGrowth 
+	evolveExp *= 1.3
+	scale_size = Vector2.ONE
 		
-func die() : 
+func take_damage() :
+	evolveLevel -= 1
+	experience = 0
+	evolveExp -= evolveExp * 0.3 
 	#sprite.modulate = Color(0, 0, 254, 1)
 	print("Player Died!")
 	
