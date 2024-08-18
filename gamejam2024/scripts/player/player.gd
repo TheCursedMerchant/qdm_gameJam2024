@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
+@onready var Eating = $Eating
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
@@ -101,7 +102,7 @@ func grow(rate: float, exp: float = 0) -> void :
 	scale_size = newScale
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
-	
+	Eating.play()
 	sprite.scale =  clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
 	if(rate > 0) :
@@ -135,6 +136,7 @@ func devolve() :
 	experience = 0
 	evolveExp -= evolveExp * 0.3
 	scale_size *= 0.5 
+	
 	
 	if(evolveLevel < 3) :
 		sprite.texture = GameRes.playerTextures[0]	
