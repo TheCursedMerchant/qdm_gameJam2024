@@ -1,13 +1,19 @@
 extends Control
 
-func _ready():
-	for e in get_tree().get_nodes_in_group('Food'):
-		e.deactivate()
-	display_death()
+@onready var messages = $Message
+@onready var final_score = $Final_Score
+
+func _ready() -> void:
+	self.visible = false
 
 func display_death():
-	$Message.text = 'You have been eaten.'
-	$Final_Score.text = "Final Score: " + str(System.score)
+	get_tree().call_group('Food', 'deactivate')
+	get_tree().call_group('Enemy', 'deactivate')
+	#for e in get_tree().get_nodes_in_group('Food'):
+		#e.deactivate()
+	self.visible = true
+	messages.text = 'You have been eaten.'
+	final_score.text = "Final Score: " + str(System.score)
 
 func _on_restart_pressed() -> void:
 	System.score = 0

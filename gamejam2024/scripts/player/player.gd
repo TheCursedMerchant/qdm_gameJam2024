@@ -32,6 +32,7 @@ const zoomSpeed := Vector2(0.003, 0.003)
 
 signal charge(zoomRate: Vector2)
 signal charge_release
+signal death
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -149,7 +150,8 @@ func take_damage() :
 	devolve()
 	if (evolveLevel < 0) : 
 		print("Player Died!")
-		get_tree().call_deferred("change_scene_to_file", "res://scenes/death.tscn")
+		emit_signal("death")
+		#get_tree().call_deferred("change_scene_to_file", "res://scenes/death.tscn")
 		
 func updateSizeScale(scale : float) : 
 	var newScale := Vector2(scale, scale)
