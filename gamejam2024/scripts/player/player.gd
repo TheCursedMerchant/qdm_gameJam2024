@@ -122,11 +122,11 @@ func evolve() :
 	evolveExp *= 1.3
 	
 	print("Player level after evolving : ", System.player_level)
-	if(System.player_level < 3) :
+	if(System.player_level < 7) :
 		sprite.texture = GameRes.playerTextures[0]	
-	elif(System.player_level < 7) : 
+	elif(System.player_level < 11) : 
 		sprite.texture = GameRes.playerTextures[1]
-	elif(System.player_level < 12): 
+	else: 
 		sprite.texture = GameRes.playerTextures[2]
 
 func devolve() : 
@@ -143,7 +143,7 @@ func devolve() :
 	elif(System.player_level < 12): 
 		sprite.texture = GameRes.playerTextures[2]
 		
-	System.player_level = System.player_level	
+	System.player_level = System.player_level
 		
 func take_damage() :
 	devolve()
