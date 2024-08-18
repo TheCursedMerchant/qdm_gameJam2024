@@ -2,13 +2,19 @@ extends Control
 
 var fish_score = 0
 
- #Called when the node enters the scene tree for the first time.
+
+@onready var scoreLabel := $MarginContainer/HBoxContainer/Score
+@onready var levelLabel := $MarginContainer/HBoxContainer/Level
+
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Label.text = "Score: " + str(fish_score)
+	scoreLabel.text = "Score: " + str(fish_score)
+	levelLabel.text = "Level : " + str(System.player_level)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	fish_score = System.score
-	$Label.text = "Score: " + str(fish_score)
+	scoreLabel.text = "Score: " + str(fish_score)
+	levelLabel.text = "Level : " + str(System.player_level)
 	
 	

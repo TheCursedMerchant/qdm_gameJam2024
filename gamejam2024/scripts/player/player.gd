@@ -13,15 +13,14 @@ extends CharacterBody2D
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
-@onready var Eating = $Eating
+@onready var eating = $Eating
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
 var experience := 0
-var evolveExp := 50 
-var evolveLevel := 0
+var evolveExp := 1 
 var currentSpeed := baseSpeed
 
 const minScale := Vector2(0.5, 0.5)
@@ -52,14 +51,14 @@ func _physics_process(delta: float) -> void:
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = (h_direction * baseSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+				velocity.x = (h_direction * currentSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
 			else : 
-				velocity.x = move_toward(velocity.x, 0, baseSpeed / 5)
+				velocity.x = move_toward(velocity.x, 0, currentSpeed / 5)
 				
 			if v_direction :
-				velocity.y = (v_direction * baseSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
+				velocity.y = (v_direction * currentSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
 			else :
-				velocity.y = move_toward(velocity.y, 0, baseSpeed / 5)
+				velocity.y = move_toward(velocity.y, 0, currentSpeed / 5)
 				
 		System.PLAYER_STATES.CHARGE :
 			Engine.time_scale = 0.3
@@ -103,7 +102,6 @@ func grow(rate: float, exp: float = 0) -> void :
 	scale_size = newScale
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
-	Eating.play()
 	sprite.scale =  clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
 	if(rate > 0) :
@@ -118,37 +116,39 @@ func grow(rate: float, exp: float = 0) -> void :
 		else : 
 			overShrink = true
 			
-func evolve() : 			
-	evolveLevel += 1
+func evolve() : 		
+	System.player_level += 1 
 	experience = 0
-	currentSpeed = baseSpeed + (speedGrowth * evolveLevel)
+	currentSpeed = baseSpeed + (speedGrowth * System.player_level)
 	evolveExp *= 1.3
 	
-	if(evolveLevel < 3) :
+	print("Player level after evolving : ", System.player_level)
+	if(System.player_level < 3) :
 		sprite.texture = GameRes.playerTextures[0]	
-	elif(evolveLevel < 7) : 
+	elif(System.player_level < 7) : 
 		sprite.texture = GameRes.playerTextures[1]
-	elif(evolveLevel < 12): 
+	elif(System.player_level < 12): 
 		sprite.texture = GameRes.playerTextures[2]
-	#scale_size = Vector2.ONE
-	
+
 func devolve() : 
-	evolveLevel -= 1
+	System.player_level -= 1
 	experience = 0
 	evolveExp -= evolveExp * 0.3
 	scale_size *= 0.5 
 	
-	
-	if(evolveLevel < 3) :
+	print("Player level after devolving : ", System.player_level)
+	if(System.player_level < 3) :
 		sprite.texture = GameRes.playerTextures[0]	
-	elif(evolveLevel < 7) : 
+	elif(System.player_level < 7) : 
 		sprite.texture = GameRes.playerTextures[1]
-	elif(evolveLevel < 12): 
+	elif(System.player_level < 12): 
 		sprite.texture = GameRes.playerTextures[2]
+		
+	System.player_level = System.player_level	
 		
 func take_damage() :
 	devolve()
-	if (evolveLevel < 0) : 
+	if (System.player_level < 0) : 
 		print("Player Died!")
 		emit_signal("death")
 		#get_tree().call_deferred("change_scene_to_file", "res://scenes/death.tscn")

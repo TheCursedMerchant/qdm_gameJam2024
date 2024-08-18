@@ -6,6 +6,7 @@ extends "res://scripts/food/food.gd"
 @export var direction := Vector2.RIGHT
 
 func _ready() -> void :
+	experience = 10
 	sprite.texture = GameRes.get_random_texture()
 	var size_scale_value = randf_range(0.25, 4)
 	size_scale = Vector2(size_scale_value,size_scale_value)	

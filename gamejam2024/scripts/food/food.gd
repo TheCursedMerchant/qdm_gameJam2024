@@ -3,7 +3,7 @@ extends Area2D
 
 @export_category("Stats")
 @export var growth_value = 0.2
-@export var experience := 10
+@export var experience := 0
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
 @export var friendly := false
@@ -26,6 +26,7 @@ func _on_body_entered(body: Node2D) -> void:
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
 		if((friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) ) :
+			player.eating.play()
 			player.grow(growth_value, experience)
 			if (friendly == false):
 				System.score += 1

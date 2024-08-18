@@ -7,3 +7,4 @@ enum PLAYER_STATES {
 }
 
 var score = 0
+var player_level = 0
