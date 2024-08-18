@@ -69,7 +69,6 @@ func _physics_process(delta: float) -> void:
 				grow( -(dashCharge / 3) )
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
-					print("callback!")
 				fleshChunkPool.addAtPosition(global_position + (dash_direction * -100), addChunk, callback)
 				playerState = System.PLAYER_STATES.DASH
 				

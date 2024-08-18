@@ -29,7 +29,7 @@ func _on_timer_timeout() -> void:
 	spawnPool.addAtPosition(
 		Vector2( global_position.x,randi_range(25,get_viewport_rect().size.y) ), 
 		spawn_fish,
-		func() : print("not implemented"))
+		func() : )
 
 func spawn_fish() -> Fish: 
 	var new_fish : Fish = fish_scene.instantiate()
