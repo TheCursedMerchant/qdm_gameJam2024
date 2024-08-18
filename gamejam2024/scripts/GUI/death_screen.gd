@@ -6,11 +6,8 @@ func _ready():
 	display_death()
 
 func display_death():
-	print(get_tree())
 	$Message.text = 'You have been eaten.'
-
-func show_final_score():
-	$"Final Score".Text = "Final Score: " + str(System.score)
+	$Final_Score.text = "Final Score: " + str(System.score)
 
 func _on_restart_pressed() -> void:
 	get_tree().change_scene_to_file("res://test.tscn")
