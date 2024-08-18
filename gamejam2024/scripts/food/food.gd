@@ -2,7 +2,7 @@ class_name Food
 extends Area2D
 
 @export_category("Stats")
-@export var growth_value = 0.1
+@export var growth_value = 0.2
 @export var experience := 10
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
@@ -12,6 +12,7 @@ extends Area2D
 @onready var collisionShape = $CollisionShape2D
 
 var isActive := true
+var isEdible := true
 
 func _ready() -> void :
 	connect("body_entered", _on_body_entered)
@@ -21,10 +22,10 @@ func _ready() -> void :
 # if food is eaten or player is eaten
 func _on_body_entered(body: Node2D) -> void:
 	var sprite_size = sprite.get_rect().size * sprite.scale
-	if(body.get_groups().has("Player")) :
+	if(isEdible && body.get_groups().has("Player")) :
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
-		if(friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) :
+		if((friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) ) :
 			player.grow(growth_value, experience)
 			if (friendly == false):
 				System.score += 1
@@ -45,3 +46,5 @@ func updateSize(newSize: Vector2) :
 	sprite.scale = size_scale
 	collisionShape.scale = size_scale 
 	
+func startTimer() : 
+	pass

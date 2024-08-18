@@ -13,21 +13,33 @@ script = ExtResource("1_3yksk")
 [node name="Player" parent="." instance=ExtResource("1_okob1")]
 position = Vector2(584, 371)
 
-[node name="Spawner" parent="." instance=ExtResource("5_87bdc")]
+[node name="Spawner_U1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
+fish_direction = Vector2(0, 1)
+spawnSide = Vector2(0, -1)
+isActive = false
 
-[node name="Spawner3" parent="." instance=ExtResource("5_87bdc")]
+[node name="Spawner_D1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
+fish_direction = Vector2(0, -1)
+spawnSide = Vector2(0, 1)
+isActive = false
 
-[node name="Spawner2" parent="." instance=ExtResource("5_87bdc")]
-position = Vector2(1152, -8)
+[node name="Spawner_R1" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
 fish_direction = Vector2(-1, 0)
-right_spawn = false
 
-[node name="Spawner4" parent="." instance=ExtResource("5_87bdc")]
-position = Vector2(1152, -8)
+[node name="Spawner_R2" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
 fish_direction = Vector2(-1, 0)
-right_spawn = false
+
+[node name="Spawner_L1" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+spawnSide = Vector2(-1, 0)
+
+[node name="Spawner_L2" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+spawnSide = Vector2(-1, 0)
 
 [node name="Wall" parent="." instance=ExtResource("4_r12t7")]
 position = Vector2(-33, 544)
@@ -45,7 +57,9 @@ scale = Vector2(31, 1)
 position = Vector2(948, -35)
 scale = Vector2(31, 1)
 
-[node name="Scoreboard" parent="." instance=ExtResource("5_qsoqg")]
-
 [node name="MainCamera" type="Camera2D" parent="."]
 script = ExtResource("6_lk2y2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("5_qsoqg")]

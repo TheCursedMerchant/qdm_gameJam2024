@@ -8,6 +8,7 @@ func _ready() -> void:
 	textures.append(preload("res://assets/art/fat_fish_green.png"))
 	textures.append(preload("res://assets/art/torpedo_fish.png"))
 	textures.append(preload("res://assets/art/torpedo_fish_green.png"))
+	#textures.append(preload("res://POC/octopus.png"))
 	
 	playerTextures.append(preload("res://assets/art/player_fish.png"))
 	playerTextures.append(preload("res://assets/art/player_fish_level_2.png"))

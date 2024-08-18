@@ -19,7 +19,7 @@ var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
 var experience := 0
-var evolveExp := 100
+var evolveExp := 50 
 var evolveLevel := 0
 var currentSpeed := baseSpeed
 
@@ -70,6 +70,8 @@ func _physics_process(delta: float) -> void:
 				grow( -(dashCharge / 3) )
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
+					fleshChunkPool.getLastScene().isEdible = false
+					fleshChunkPool.getLastScene().startTimer()
 				fleshChunkPool.addAtPosition(global_position + (dash_direction * -100), addChunk, callback)
 				playerState = System.PLAYER_STATES.DASH
 				
@@ -84,10 +86,12 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func addChunk() -> Food : 
-	var newChunkInstance: Food = fleshChunkScene.instantiate()
+func addChunk() -> FleshChunk : 
+	var newChunkInstance: FleshChunk = fleshChunkScene.instantiate()
 	newChunkInstance.size_scale = scale_size * 0.5
+	newChunkInstance.isEdible = false
 	get_tree().root.add_child(newChunkInstance)
+	newChunkInstance.startTimer()
 	return newChunkInstance
 	
 func grow(rate: float, exp: float = 0) -> void :
@@ -144,4 +148,12 @@ func take_damage() :
 	if (evolveLevel < 0) : 
 		print("Player Died!")
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/death.tscn")
+		
+func updateSizeScale(scale : float) : 
+	var newScale := Vector2(scale, scale)
+	scale_size = newScale
+	sprite.scale = scale_size
+	collisionShape.scale = scale_size
+	arrow_sprite.scale = scale_size
+	
 	

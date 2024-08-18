@@ -6,22 +6,31 @@ var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
 @export var fish_direction = Vector2.RIGHT
-@export var right_spawn := true
+@export var spawnSide = Vector2.RIGHT
 @export var isActive := true
 
 @onready var spawn_timer := $Timer
 
 var spawnPool : ScenePool = ScenePool.new(3)
 
+func _ready() -> void :
+	pass
+
 func _process(delta: float) -> void:
 	if initial_start && isActive:
 		spawn_timer.start()
 		initial_start = false
 		
-	if(right_spawn) : 
-		global_position = Vector2(-25, 0)
-	else :
-		global_position = Vector2(get_viewport().get_visible_rect().size.x + 25, 0)
+func _physics_process(delta: float) -> void:
+	match spawnSide : 
+		Vector2.LEFT :
+			global_position = Vector2(-25, 0)
+		Vector2.RIGHT :
+			global_position = Vector2(get_viewport().get_visible_rect().size.x + 25, 0)
+		Vector2.UP :
+			global_position = Vector2(get_viewport().get_visible_rect().size.x / 2, -25)
+		Vector2.DOWN :
+			global_position = Vector2(get_viewport().get_visible_rect().size.x / 2, get_viewport().get_visible_rect().size.y + 25)  
 
 func _on_timer_timeout() -> void:
 	spawn_timer.start(randf_range(.5,2.5))
@@ -39,5 +48,11 @@ func spawn_fish() -> Fish:
 		new_fish.sprite.flip_h = false
 	elif(fish_direction.x < 0):
 		new_fish.sprite.flip_h = true
+		
+	if(fish_direction.y > 0 ):
+		new_fish.sprite.flip_v = true
+	elif(fish_direction.y < 0):
+		new_fish.sprite.flip_v = false
+		
 	return new_fish
 	
