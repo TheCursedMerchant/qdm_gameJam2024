@@ -23,3 +23,6 @@ func addAtPosition(_pos : Vector2, createScene: Callable) :
 		lastSceneIndex += 1
 		if lastSceneIndex >= poolSize : 
 			lastSceneIndex = 0
+			
+func getLastScene() : 
+	return pool[lastSceneIndex]

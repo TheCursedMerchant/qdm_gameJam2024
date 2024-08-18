@@ -7,13 +7,14 @@ var starting_position_range = randi_range(-250,0)
 @export var initial_start := true
 @export var fish_direction = Vector2.RIGHT
 @export var right_spawn := true
+@export var isActive := true
 
 @onready var spawn_timer := $Timer
 
 var spawnPool : ScenePool = ScenePool.new(3)
 
 func _process(delta: float) -> void:
-	if initial_start:
+	if initial_start && isActive:
 		spawn_timer.start()
 		initial_start = false
 		
@@ -24,8 +25,11 @@ func _process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	spawn_timer.start(randf_range(.5,2.5))
-	spawnPool.addAtPosition(Vector2(global_position.x,randi_range(25,get_viewport_rect().size.y)), spawn_fish)
 	
+	spawnPool.addAtPosition(
+		Vector2( global_position.x,randi_range(25,get_viewport_rect().size.y) ), 
+		spawn_fish)
+
 func spawn_fish() -> Fish: 
 	var new_fish : Fish = fish_scene.instantiate()
 	new_fish.direction = fish_direction

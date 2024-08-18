@@ -2,7 +2,7 @@ class_name Food
 extends Area2D
 
 @export_category("Stats")
-@export var growth_value = 0.05
+@export var growth_value = 0.08
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
 
@@ -13,8 +13,7 @@ var isActive := true
 
 func _ready() -> void :
 	connect("body_entered", _on_body_entered)
-	sprite.scale = size_scale
-	collisionShape.scale = size_scale
+	updateSize(size_scale)
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
@@ -37,3 +36,9 @@ func deactivate() :
 	
 func reactivate() :
 	isActive = true
+	
+func updateSize(newSize: Vector2) :
+	size_scale = newSize
+	sprite.scale = size_scale
+	collisionShape.scale = size_scale 
+	

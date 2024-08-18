@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var speed := 750.0
+@export var speed := 600.0
 @export var scale_size := Vector2.ONE
 @export var dashSpeed := 3000.0
 @export var playerState := System.PLAYER_STATES.IDLE
@@ -16,9 +16,13 @@ extends CharacterBody2D
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
+var fleshChunkPool := ScenePool.new(1)
 
-const minScale := Vector2(0.2, 0.2)
+const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
+const minScaleSpeed := 0.3
+const maxScaleSpeed := 4
+
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -38,12 +42,12 @@ func _physics_process(delta: float) -> void:
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = (h_direction * speed) / (scale_size.x / 2)
-			else :
+				velocity.x = (h_direction * speed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+			else : 
 				velocity.x = move_toward(velocity.x, 0, speed / 5)
 				
 			if v_direction :
-				velocity.y = (v_direction * speed) / scale_size.y
+				velocity.y = (v_direction * speed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
 			else :
 				velocity.y = move_toward(velocity.y, 0, speed / 5)
 				
@@ -53,7 +57,8 @@ func _physics_process(delta: float) -> void:
 			if(Input.is_action_pressed("left_click")) :
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
-				create_chunk(dash_direction * -1, scale_size * 0.5, dashCharge / 3)
+				grow( -(dashCharge / 3) )
+				fleshChunkPool.addAtPosition(global_position + (dash_direction * -1), addChunk)
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
@@ -67,12 +72,12 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func create_chunk(direction: Vector2, size: Vector2, shrink_amount: float) : 
+func addChunk() -> Food : 
 	var newChunkInstance: Food = fleshChunkScene.instantiate()
-	newChunkInstance.size_scale = size
-	newChunkInstance.global_position = global_position + (direction * 100)
-	grow(-shrink_amount)
+	newChunkInstance.size_scale = scale_size * 0.5
 	get_tree().root.add_child(newChunkInstance)
+	return newChunkInstance
+	
 	
 func grow(rate: float) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
