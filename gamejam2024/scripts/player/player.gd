@@ -26,7 +26,10 @@ const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
 const minScaleSpeed := 0.3
 const maxScaleSpeed := 4
+const zoomSpeed := Vector2(0.003, 0.003)
 
+signal charge(zoomRate: Vector2)
+signal charge_release
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -59,8 +62,10 @@ func _physics_process(delta: float) -> void:
 			Engine.time_scale = 0.3
 			velocity = Vector2.ZERO
 			if(Input.is_action_pressed("left_click")) :
+				emit_signal("charge", zoomSpeed)
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
+				emit_signal("charge_release")
 				grow( -(dashCharge / 3) )
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
