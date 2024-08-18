@@ -19,7 +19,7 @@ var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
 var experience := 0
-var evolveExp := 1
+var evolveExp := 100
 var evolveLevel := 0
 var currentSpeed := baseSpeed
 
