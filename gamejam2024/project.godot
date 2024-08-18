@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 System="*res://scripts/system/system.gd"
+GameRes="*res://scripts/gameRes.gd"
 
 [display]
 

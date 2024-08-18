@@ -35,5 +35,9 @@ func spawn_fish() -> Fish:
 	var new_fish : Fish = fish_scene.instantiate()
 	new_fish.direction = fish_direction
 	add_child(new_fish)
+	if(fish_direction.x > 0 ):
+		new_fish.sprite.flip_h = false
+	elif(fish_direction.x < 0):
+		new_fish.sprite.flip_h = true
 	return new_fish
 	
