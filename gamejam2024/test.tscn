@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8p7jqgs2jukf"]
+[gd_scene load_steps=8 format=3 uid="uid://b8p7jqgs2jukf"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_3yksk"]
 [ext_resource type="PackedScene" uid="uid://bjo41ejls2sqx" path="res://scenes/player.tscn" id="1_okob1"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://rfli5fbso7gy" path="res://scenes/spawner.tscn" id="5_87bdc"]
 [ext_resource type="PackedScene" uid="uid://br0cvu74yhcoh" path="res://scenes/scoreboard.tscn" id="5_qsoqg"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="6_lk2y2"]
+[ext_resource type="AudioStream" uid="uid://djvogs81a54v0" path="res://assets/audio/background.wav" id="7_dmmww"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
@@ -13,21 +14,33 @@ script = ExtResource("1_3yksk")
 [node name="Player" parent="." instance=ExtResource("1_okob1")]
 position = Vector2(584, 371)
 
-[node name="Spawner" parent="." instance=ExtResource("5_87bdc")]
+[node name="Spawner_U1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
+fish_direction = Vector2(0, 1)
+spawnSide = Vector2(0, -1)
+isActive = false
 
-[node name="Spawner3" parent="." instance=ExtResource("5_87bdc")]
+[node name="Spawner_D1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
+fish_direction = Vector2(0, -1)
+spawnSide = Vector2(0, 1)
+isActive = false
 
-[node name="Spawner2" parent="." instance=ExtResource("5_87bdc")]
-position = Vector2(1152, -8)
+[node name="Spawner_R1" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
 fish_direction = Vector2(-1, 0)
-right_spawn = false
 
-[node name="Spawner4" parent="." instance=ExtResource("5_87bdc")]
-position = Vector2(1152, -8)
+[node name="Spawner_R2" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
 fish_direction = Vector2(-1, 0)
-right_spawn = false
+
+[node name="Spawner_L1" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+spawnSide = Vector2(-1, 0)
+
+[node name="Spawner_L2" parent="." instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+spawnSide = Vector2(-1, 0)
 
 [node name="Wall" parent="." instance=ExtResource("4_r12t7")]
 position = Vector2(-33, 544)
@@ -45,7 +58,14 @@ scale = Vector2(31, 1)
 position = Vector2(948, -35)
 scale = Vector2(31, 1)
 
-[node name="Scoreboard" parent="." instance=ExtResource("5_qsoqg")]
-
 [node name="MainCamera" type="Camera2D" parent="."]
 script = ExtResource("6_lk2y2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("5_qsoqg")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_dmmww")
+autoplay = true
+

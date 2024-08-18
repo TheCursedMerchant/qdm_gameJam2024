@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjo41ejls2sqx"]
+[gd_scene load_steps=6 format=3 uid="uid://bjo41ejls2sqx"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_a5vru"]
 [ext_resource type="Texture2D" uid="uid://brcrfk5hmp4vd" path="res://assets/art/player_fish.png" id="2_273r6"]
 [ext_resource type="Texture2D" uid="uid://bdwpxw7hns7p6" path="res://assets/art/spr_direction_arrow.png" id="3_ovqs6"]
+[ext_resource type="AudioStream" uid="uid://c00tktt3y0e2d" path="res://assets/audio/nomshort.wav" id="4_kbpit"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8d8ug"]
 radius = 32.0
@@ -20,3 +21,7 @@ shape = SubResource("CircleShape2D_8d8ug")
 [node name="ArrowSprite" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("3_ovqs6")
+
+[node name="Eating" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_kbpit")
+volume_db = 17.829
