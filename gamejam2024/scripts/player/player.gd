@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var speed := 600.0
+@export var baseSpeed := 600.0
 @export var scale_size := Vector2.ONE
 @export var dashSpeed := 3000.0
 @export var playerState := System.PLAYER_STATES.IDLE
@@ -19,8 +19,9 @@ var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
 var experience := 0
-var evolveExp := 100
+var evolveExp := 1
 var evolveLevel := 0
+var currentSpeed := baseSpeed
 
 const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
@@ -49,14 +50,14 @@ func _physics_process(delta: float) -> void:
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = (h_direction * speed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+				velocity.x = (h_direction * baseSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
 			else : 
-				velocity.x = move_toward(velocity.x, 0, speed / 5)
+				velocity.x = move_toward(velocity.x, 0, baseSpeed / 5)
 				
 			if v_direction :
-				velocity.y = (v_direction * speed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
+				velocity.y = (v_direction * baseSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
 			else :
-				velocity.y = move_toward(velocity.y, 0, speed / 5)
+				velocity.y = move_toward(velocity.y, 0, baseSpeed / 5)
 				
 		System.PLAYER_STATES.CHARGE :
 			Engine.time_scale = 0.3
@@ -111,18 +112,32 @@ func grow(rate: float, exp: float = 0) -> void :
 		else : 
 			overShrink = true
 			
-func evolve() :
+func evolve() : 			
 	evolveLevel += 1
 	experience = 0
-	speed += speedGrowth 
+	currentSpeed = baseSpeed + (speedGrowth * evolveLevel)
 	evolveExp *= 1.3
-	scale_size = Vector2.ONE
+	
+	if(evolveLevel < 3) :
+		sprite.texture = GameRes.playerTextures[0]	
+	elif(evolveLevel < 7) : 
+		sprite.texture = GameRes.playerTextures[1]
+	elif(evolveLevel < 12): 
+		sprite.texture = GameRes.playerTextures[2]
+	#scale_size = Vector2.ONE
 	
 func devolve() : 
 	evolveLevel -= 1
 	experience = 0
 	evolveExp -= evolveExp * 0.3
-	scale_size = Vector2.ONE
+	scale_size *= 0.5 
+	
+	if(evolveLevel < 3) :
+		sprite.texture = GameRes.playerTextures[0]	
+	elif(evolveLevel < 7) : 
+		sprite.texture = GameRes.playerTextures[1]
+	elif(evolveLevel < 12): 
+		sprite.texture = GameRes.playerTextures[2]
 		
 func take_damage() :
 	devolve()
