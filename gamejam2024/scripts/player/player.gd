@@ -119,4 +119,5 @@ func take_damage() :
 	evolveExp -= evolveExp * 0.3 
 	#sprite.modulate = Color(0, 0, 254, 1)
 	print("Player Died!")
+	get_tree().change_scene_to_file("res://scenes/death.tscn")
 	
