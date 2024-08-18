@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
-@export var speedGrowth = 50.00
+@export var speedGrowth = 50.00 
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D

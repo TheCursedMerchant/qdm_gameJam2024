@@ -6,6 +6,7 @@ extends "res://scripts/food/food.gd"
 @export var direction := Vector2.RIGHT
 
 func _ready() -> void :
+	sprite.texture = GameRes.get_random_texture()
 	var size_scale_value = randf_range(0.25, 4)
 	size_scale = Vector2(size_scale_value,size_scale_value)
 	super._ready()
@@ -17,4 +18,5 @@ func _physics_process(delta: float) -> void :
 func reactivate() :
 	isActive = true
 	var size_scale_value = randf_range(0.25, 4)
+	sprite.texture = GameRes.get_random_texture()
 	updateSize(Vector2(size_scale_value,size_scale_value))
