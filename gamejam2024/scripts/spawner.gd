@@ -35,8 +35,16 @@ func _physics_process(delta: float) -> void:
 func _on_timer_timeout() -> void:
 	spawn_timer.start(randf_range(.5,2.5))
 	
+	var spawnPosition : Vector2
+	
+	if(spawnSide.x != 0) : 
+		spawnPosition = Vector2(global_position.x ,randf_range(25, get_viewport_rect().size.y))
+	
+	if(spawnSide.y != 0) : 
+		spawnPosition = Vector2(randf_range(100, get_viewport_rect().size.x), global_position.y)
+	
 	spawnPool.addAtPosition(
-		Vector2( global_position.x,randi_range(25,get_viewport_rect().size.y) ), 
+		spawnPosition, 
 		spawn_fish,
 		func() : )
 
@@ -50,9 +58,9 @@ func spawn_fish() -> Fish:
 		new_fish.sprite.flip_h = true
 		
 	if(fish_direction.y > 0 ):
-		new_fish.sprite.flip_v = true
+		new_fish.global_rotation_degrees = 90
 	elif(fish_direction.y < 0):
-		new_fish.sprite.flip_v = false
+		new_fish.global_rotation_degrees = 0
 		
 	return new_fish
 	

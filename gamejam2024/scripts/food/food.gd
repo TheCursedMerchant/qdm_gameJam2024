@@ -26,6 +26,7 @@ func _on_body_entered(body: Node2D) -> void:
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
 		if((friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) ) :
+			player.eating.play()
 			player.grow(growth_value, experience)
 			if (friendly == false):
 				System.score += 1

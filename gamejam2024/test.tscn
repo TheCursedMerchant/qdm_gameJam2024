@@ -18,13 +18,11 @@ position = Vector2(584, 371)
 position = Vector2(-6, -1)
 fish_direction = Vector2(0, 1)
 spawnSide = Vector2(0, -1)
-isActive = false
 
 [node name="Spawner_D1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
 fish_direction = Vector2(0, -1)
 spawnSide = Vector2(0, 1)
-isActive = false
 
 [node name="Spawner_R1" parent="." instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
@@ -68,4 +66,3 @@ script = ExtResource("6_lk2y2")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_dmmww")
 autoplay = true
-
