@@ -10,6 +10,7 @@ func display_death():
 	$Final_Score.text = "Final Score: " + str(System.score)
 
 func _on_restart_pressed() -> void:
+	System.score = 0
 	get_tree().change_scene_to_file("res://test.tscn")
 
 func _on_quit_pressed() -> void:
