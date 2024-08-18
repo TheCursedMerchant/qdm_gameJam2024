@@ -1,6 +1,7 @@
-extends Node
+extends Control
 
 var fish_score = 0
+
 
 @onready var scoreLabel := $MarginContainer/HBoxContainer/Score
 @onready var levelLabel := $MarginContainer/HBoxContainer/Level
@@ -15,4 +16,5 @@ func _process(delta: float) -> void:
 	fish_score = System.score
 	scoreLabel.text = "Score: " + str(fish_score)
 	levelLabel.text = "Level : " + str(System.player_level)
+	
 	
