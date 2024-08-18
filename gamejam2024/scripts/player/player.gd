@@ -62,7 +62,10 @@ func _physics_process(delta: float) -> void:
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
 				grow( -(dashCharge / 3) )
-				fleshChunkPool.addAtPosition(global_position + (dash_direction * -1), addChunk)
+				var callback = func() : 
+					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
+					print("callback!")
+				fleshChunkPool.addAtPosition(global_position + (dash_direction * -100), addChunk, callback)
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
@@ -102,22 +105,24 @@ func grow(rate: float, exp: float = 0) -> void :
 		if (overShrink) :
 			take_damage()
 		else : 
-			print("Max shrink!")
 			overShrink = true
 			
 func evolve() :
-	print("Evolution!")
 	evolveLevel += 1
 	experience = 0
 	speed += speedGrowth 
 	evolveExp *= 1.3
 	scale_size = Vector2.ONE
-		
-func take_damage() :
+	
+func devolve() : 
 	evolveLevel -= 1
 	experience = 0
-	evolveExp -= evolveExp * 0.3 
-	#sprite.modulate = Color(0, 0, 254, 1)
-	print("Player Died!")
-	get_tree().change_scene_to_file("res://scenes/death.tscn")
+	evolveExp -= evolveExp * 0.3
+	scale_size = Vector2.ONE
+		
+func take_damage() :
+	devolve()
+	if (evolveLevel < 0) : 
+		print("Player Died!")
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/death.tscn")
 	

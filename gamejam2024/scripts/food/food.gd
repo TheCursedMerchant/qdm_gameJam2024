@@ -6,6 +6,7 @@ extends Area2D
 @export var experience := 34
 @export var size_scale = Vector2.ONE
 @export var off_screen_location := Vector2(-1000, 0)
+@export var friendly := false
 
 @onready var sprite = $Sprite2D
 @onready var collisionShape = $CollisionShape2D
@@ -22,12 +23,13 @@ func _on_body_entered(body: Node2D) -> void:
 	var sprite_size = sprite.get_rect().size * sprite.scale
 	if(body.get_groups().has("Player")) :
 		var player : Player = body
-		var body_sprite_size = player.sprite.get_rect().size * player.sprite.scale
-		if(sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE) :
+		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
+		if(friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) :
 			player.grow(growth_value, experience)
 			System.score += 1
 			deactivate()
 		else :
+			print("Damage from Food!")
 			player.take_damage()
 			
 func deactivate() : 
