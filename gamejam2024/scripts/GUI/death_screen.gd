@@ -9,8 +9,6 @@ func _ready() -> void:
 func display_death():
 	get_tree().call_group('Food', 'deactivate')
 	get_tree().call_group('Enemy', 'deactivate')
-	#for e in get_tree().get_nodes_in_group('Food'):
-		#e.deactivate()
 	self.visible = true
 	messages.text = 'You have been eaten.'
 	final_score.text = "Final Score: " + str(System.score)

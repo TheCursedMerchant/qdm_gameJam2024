@@ -14,13 +14,17 @@ func _physics_process(delta: float) -> void:
 
 # The movement of the fish.
 func fish_movement(delta):
-	global_position += global_position.direction_to(player.global_position) * speed * delta
+	var moveDirection = global_position.direction_to(player.global_position)
 	var player_distance = global_position.distance_to(player.global_position) # 200 seems to be a good distance
 	if player_distance <= 200.00:
 		attack()
+		
+	sprite.flip_h = moveDirection.x < 0
+	global_position += moveDirection * speed * delta
 	
 func attack():
-	print("I attack.")
+	pass
+	#print("I attack.")
 	
 func deactivate() : 
 	super.deactivate()

@@ -58,22 +58,24 @@ func _on_timer_timeout() -> void:
 	
 	spawnPool.call_deferred("addAtPosition",
 		spawnPosition, 
-		func() : return spawn_fish(fish_scenes[index]),
+		func() : return spawn_fish(fish_scenes[index], index != 2),
 		func() : )
 
-func spawn_fish(scene : PackedScene) -> Fish: 
+func spawn_fish(scene : PackedScene, flip_v := true) -> Fish: 
 	var new_fish : Fish = scene.instantiate()
 	new_fish.direction = fish_direction
 	add_child(new_fish)
+
 	if(fish_direction.x > 0 ):
 		new_fish.sprite.flip_h = false
 	elif(fish_direction.x < 0):
 		new_fish.sprite.flip_h = true
 		
-	if(fish_direction.y > 0 ):
-		new_fish.global_rotation_degrees = 90
-	elif(fish_direction.y < 0):
-		new_fish.global_rotation_degrees = -90
+	if(flip_v) : 	
+		if(fish_direction.y > 0 ):
+			new_fish.global_rotation_degrees = 90
+		elif(fish_direction.y < 0):
+			new_fish.global_rotation_degrees = -90
 		
 	return new_fish
 	
