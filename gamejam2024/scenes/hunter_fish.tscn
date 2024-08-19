@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://boidyiiht2uev"]
+
+[ext_resource type="Script" path="res://scripts/npc/hunter_fish.gd" id="1_6m0ao"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5cd8h"]
+
+[node name="HunterFish" type="CharacterBody2D"]
+script = ExtResource("1_6m0ao")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5cd8h")
+
+[node name="HuntTimer" type="Timer" parent="."]
+wait_time = 1.5
