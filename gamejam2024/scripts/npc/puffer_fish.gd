@@ -6,10 +6,12 @@ var player: CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	randomizeTexture = false
+	super._ready()
 	player = System.player_body
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	fish_movement(delta)
 
 # The movement of the fish.

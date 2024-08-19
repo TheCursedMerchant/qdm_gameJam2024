@@ -22,12 +22,12 @@ var hunterFishPool : ScenePool = ScenePool.new(3)
 
 var spawnPools : Array = [basicFishPool, hunterFishPool]
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if initial_start && isActive:
 		spawn_timer.start()
 		initial_start = false
 		
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	match spawnSide : 
 		Vector2.LEFT :
 			global_position = Vector2(-25, 0)

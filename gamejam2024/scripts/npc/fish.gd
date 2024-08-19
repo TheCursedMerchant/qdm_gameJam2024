@@ -10,10 +10,14 @@ extends "res://scripts/food/food.gd"
 var childrenFishScene := preload("res://scenes/food.tscn")
 var foodPool := ScenePool.new(2)
 var isSplit := false
+var randomizeTexture := true
+
 
 func _ready() -> void :
 	experience = 10
-	sprite.texture = GameRes.get_random_texture()
+	if (randomizeTexture) : 
+		sprite.texture = GameRes.get_random_texture()
+		
 	var size_scale_value = randf_range(0.25, 4)
 	size_scale = Vector2(size_scale_value,size_scale_value)	
 	squishTimer.connect("timeout", on_squish_timeout)
