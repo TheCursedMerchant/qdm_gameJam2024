@@ -18,3 +18,5 @@ shape = SubResource("RectangleShape2D_ge781")
 wait_time = 3.0
 
 [node name="HitStopTimer" type="Timer" parent="."]
+
+[node name="SquishTimer" type="Timer" parent="."]

@@ -4,6 +4,8 @@ extends Node2D
 @onready var camera : MainCamera = $MainCamera
 @onready var scoreboard = $CanvasLayer/Scoreboard
 @onready var death_screen = $CanvasLayer/Death
+@onready var spawner = $Spawner_D1
+@onready var hunterTime = 10
 
 func _ready() -> void:
 	player.connect("charge", camera.updateZoom)
@@ -19,3 +21,5 @@ func _process(delta) -> void :
 	if(Input.is_action_just_pressed("ui_reset")) : 
 		get_tree().reload_current_scene()
 		
+func spawn_hunter():
+	pass
