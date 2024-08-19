@@ -157,7 +157,6 @@ func reactivateWaterMissile( moveDirection : Vector2 ) :
 	waterMissile.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
 	waterMissile.getLastScene().isActive = true
 	waterMissile.getLastScene().updateScale(scale_size)
-	# waterMissile.hitCallback = func() : emit_signal("damage")
 	
 func grow(rate: float) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
@@ -175,38 +174,10 @@ func scaleTo(_scale: Vector2) -> void:
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
 	sprite.scale += Vector2(-0.6 , 0.75)
-	 
-func evolve() : 		
-	System.player_level += 1 
-	System.player_xp = 0
-	System.evolve_xp = round(System.evolve_xp * 1.3)
-	System.remaining_xp = System.evolve_xp - System.player_xp
-	
-	currentSpeed = baseSpeed + (speedGrowth * System.player_level)
-	
-	if(System.player_level < 5) :
-		sprite.texture = GameRes.playerTextures[0]	
-	elif(System.player_level < 9) : 
-		sprite.texture = GameRes.playerTextures[1]
-	else: 
-		sprite.texture = GameRes.playerTextures[2]
 
-func devolve() : 
-	System.player_level -= 1
-	System.player_xp = 0
-	System.evolve_xp = round(System.evolve_xp * 0.7)
-	System.remaining_xp = System.evolve_xp - System.player_xp
-	
-	if(System.player_level < 5) :
-		sprite.texture = GameRes.playerTextures[0]	
-	elif(System.player_level < 9) : 
-		sprite.texture = GameRes.playerTextures[1]
-	else: 
-		sprite.texture = GameRes.playerTextures[2]
-		
+
 func take_damage() :
 	emit_signal("damage")
-	#devolve()
 	sprite.self_modulate.a = 0.3
 	isRecovery = true
 	damageTimer.start(invulnerabilityTime)
@@ -228,17 +199,14 @@ func take_damage() :
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
 
-func eat(growth_value : float, exp: int): 
+func eat(growth_value : float): 
 	emit_signal("damage")
 	eating.play()
 	grow(growth_value)
 	print("StomachSize before eating : ", System.stomachSize)
 	System.stomachSize += 1
 	print("StomachSize after eating : ", System.stomachSize)
-	System.player_xp += exp
-	if(System.player_xp >= System.evolve_xp) : 
-		evolve()
-		
+
 func isFull() : 
 	return System.stomachSize >= System.stomachCapacity
 		

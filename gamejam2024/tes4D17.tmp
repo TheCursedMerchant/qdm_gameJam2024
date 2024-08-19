@@ -78,5 +78,3 @@ maxDb = -20
 
 [node name="PufferFish" parent="." instance=ExtResource("10_4er66")]
 position = Vector2(956, 390)
-
-[node name="DifficultyTimer" type="Timer" parent="."]

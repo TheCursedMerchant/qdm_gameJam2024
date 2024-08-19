@@ -35,7 +35,7 @@ func _on_body_entered(body: Node2D) -> void:
 			if(player.isFull()) :
 				player.take_damage()
 			else :  
-				player.eat(growth_value, experience)
+				player.eat(growth_value)
 				
 			deactivate()
 		elif(!player.isRecovery) :
