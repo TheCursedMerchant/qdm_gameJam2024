@@ -79,6 +79,10 @@ func _physics_process(delta: float) -> void:
 			dashCharge = 0
 			playerState = System.PLAYER_STATES.IDLE
 			
+		System.PLAYER_STATES.DEAD :
+			sprite.flip_v = true 
+			velocity.y = - 100
+			
 	# Squash and Stretch
 	sprite.scale.x = lerp(sprite.scale.x, scale_size.x, 0.1)
 	sprite.scale.y = lerp(sprite.scale.y, scale_size.y, 0.1)
@@ -144,6 +148,7 @@ func devolve() :
 func take_damage() :
 	devolve()
 	if (System.player_level < 0) : 
+		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
 		
 func updateSizeScale(scale : float) : 
