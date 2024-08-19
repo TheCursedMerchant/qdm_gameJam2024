@@ -19,7 +19,6 @@ extends CharacterBody2D
 @onready var eating = $Eating
 @onready var damageTimer : Timer = $DamageTimer
 
-
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false

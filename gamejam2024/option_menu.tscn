@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi065vr81mnvi"]
+[gd_scene load_steps=2 format=3 uid="uid://bxa2v02eald"]
 
 [ext_resource type="Script" path="res://option_menu.gd" id="1_hxhh1"]
 
@@ -47,7 +47,6 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Back"
 
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/MasterVolume" to="." method="_on_master_volume_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Apply" to="." method="_on_apply_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_options_pressed"]

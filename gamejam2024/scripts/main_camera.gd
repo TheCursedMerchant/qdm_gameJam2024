@@ -25,7 +25,6 @@ func resetZoom() :
 	zoom = Vector2.ONE
 	
 func apply_shake() :
-	print("Start shaking!") 
 	shakeStrength = randomStrength
 	
 func randomOffset() -> Vector2 : 

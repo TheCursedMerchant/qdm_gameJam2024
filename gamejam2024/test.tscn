@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8p7jqgs2jukf"]
+[gd_scene load_steps=10 format=3 uid="uid://b8p7jqgs2jukf"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_3yksk"]
 [ext_resource type="PackedScene" uid="uid://bjo41ejls2sqx" path="res://scenes/player.tscn" id="1_okob1"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="6_lk2y2"]
 [ext_resource type="AudioStream" uid="uid://djvogs81a54v0" path="res://assets/audio/background.wav" id="7_dmmww"]
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
+[ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
@@ -67,7 +68,8 @@ script = ExtResource("6_lk2y2")
 
 [node name="Death" parent="CanvasLayer" instance=ExtResource("7_ib807")]
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_dmmww")
-volume_db = -1.0
+volume_db = -20.0
 autoplay = true
+script = ExtResource("9_3l5fu")

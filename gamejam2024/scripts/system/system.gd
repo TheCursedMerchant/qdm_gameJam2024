@@ -19,3 +19,5 @@ func getRemainingXp() -> int :
 const HIT_SHAKE_DURATION := 0.5
 const HIT_SHAKE_FREQUENCY := 6.0
 const HIT_SHAKE_AMPLITUDE := 3
+
+var masterVolume = 1.0
