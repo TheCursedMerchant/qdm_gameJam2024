@@ -1,28 +1,44 @@
-extends CharacterBody2D
+class_name Hunter
+extends "res://scripts/food/food.gd"
 
-@onready var directions = [Vector2.RIGHT,Vector2.LEFT,Vector2.DOWN,Vector2.UP]
-@onready var huntingTimer:= $HuntTimer
-
+@export var direction := Vector2.RIGHT
 @export var baseSpeed = 300
-var player: CharacterBody2D
+@export var shrinkValue = 0.05
+
+@onready var huntingTimer:= $HuntTimer
 
 # The fish does not immediately start hunting the player.
 var isHunting := false
-
+var player: CharacterBody2D
 
 func _ready() -> void:
 	huntingTimer.start()
-	isHunting = true
+	huntingTimer.connect('timeout',_on_hunt_timer_timeout)
+	connect("body_entered",_on_body_entered_hunter)
+	player = System.player_body
 	
 func _process(delta: float) -> void:
-	move_and_slide()
+	fish_movement(delta)
 
-func fish_movement():
-	pass
-
-func targeted_movement():
+func fish_movement(delta):
 	if isHunting:
-		player = System.player_body
-		velocity = position.direction_to(player.position) * baseSpeed
-	move_and_slide()
+		global_position += position.direction_to(player.position) * baseSpeed * delta
+	else:
+		global_position += direction * baseSpeed * delta
+	
+func _on_hunt_timer_timeout() -> void:
+	var currentSize = sprite.get_rect().size * sprite.scale
+	var currentPlayerSize = player.sprite.get_rect().size * player.scale_size
+	if currentSize > currentPlayerSize:
+		isHunting = true
+	
+func _on_body_entered_hunter(body: Node2D):
+	if body.get_groups().has("Player"):
+		var player : Player = body
+		isHunting = false
+		huntingTimer.start()
+		if (!player.isRecovery):
+			#player.grow(-shrinkValue)
+			#player.take_damage()
+			pass
 	
