@@ -11,22 +11,24 @@ extends Area2D
 
 @onready var sprite = $Sprite2D
 @onready var collisionShape = $CollisionShape2D
+@onready var hitStopTimer : Timer = $HitStopTimer
 
 var isActive := true
 var isEdible := true
+const hitStopTime := 0.03
 
 func _ready() -> void :
 	connect("body_entered", _on_body_entered)
+	hitStopTimer.connect("timeout", func() : Engine.time_scale = 1.0)
 	updateSize(size_scale)
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
 func _on_body_entered(body: Node2D) -> void:
 	var sprite_size = sprite.get_rect().size * sprite.scale
-	if(isEdible && body.get_groups().has("Player") && !body.isRecovery) :
+	if(isEdible && body.get_groups().has("Player")) :
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
-		
 		if(friendly or ( sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE )) :
 			player.eating.play()
 			player.grow(growth_value)
@@ -36,10 +38,12 @@ func _on_body_entered(body: Node2D) -> void:
 			if (friendly == false):
 				System.score += 1
 			deactivate()
-		else :
-			print("Damage from Food!")
+		elif(!player.isRecovery) :
 			player.grow(-shrink_value)
 			player.take_damage()
+			
+		hitStop()
+
 			
 func deactivate() : 
 	isActive = false
@@ -47,11 +51,12 @@ func deactivate() :
 	
 func reactivate() :
 	isActive = true
-	
+
+func hitStop() : 
+	hitStopTimer.start(hitStopTime)
+	Engine.time_scale = 0.1
+
 func updateSize(newSize: Vector2) :
 	size_scale = newSize
 	sprite.scale = size_scale
 	collisionShape.scale = size_scale 
-	
-func startTimer() : 
-	pass

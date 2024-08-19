@@ -19,6 +19,7 @@ extends CharacterBody2D
 @onready var eating = $Eating
 @onready var damageTimer : Timer = $DamageTimer
 
+
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
@@ -40,12 +41,10 @@ signal damage
 func _ready() -> void:
 	damageTimer.connect("timeout", on_recovery_finished)
 	
-
 func on_recovery_finished() : 
 	isRecovery = false
 	sprite.self_modulate.a = 1.0
 	
-
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
 	var v_direction := Input.get_axis("ui_up", "ui_down")
@@ -56,7 +55,6 @@ func _physics_process(delta: float) -> void:
 	match playerState :
 		
 		System.PLAYER_STATES.IDLE :  
-			Engine.time_scale = 1.0
 			if(Input.is_action_just_pressed("left_click")) :
 				playerState = System.PLAYER_STATES.CHARGE
 			if h_direction:
@@ -93,6 +91,7 @@ func _physics_process(delta: float) -> void:
 		System.PLAYER_STATES.DASH : 
 			velocity += (dash_direction * dashSpeed * dashCharge).round()
 			dashCharge = 0
+			Engine.time_scale = 1.0
 			playerState = System.PLAYER_STATES.IDLE
 			
 		System.PLAYER_STATES.DEAD :
@@ -102,6 +101,9 @@ func _physics_process(delta: float) -> void:
 	# Squash and Stretch
 	sprite.scale.x = lerp(sprite.scale.x, scale_size.x, 0.1)
 	sprite.scale.y = lerp(sprite.scale.y, scale_size.y, 0.1)
+	
+	# Fade alpha back to opaque
+	sprite.self_modulate.a = lerp(sprite.self_modulate.a, 1.0, 0.05)
 		
 	move_and_slide()
 	
@@ -163,7 +165,7 @@ func devolve() :
 func take_damage() :
 	emit_signal("damage")
 	devolve()
-	sprite.self_modulate.a = 0.5
+	sprite.self_modulate.a = 0.3
 	isRecovery = true
 	damageTimer.start(invulnerabilityTime)
 	if (System.player_level < 0) : 
