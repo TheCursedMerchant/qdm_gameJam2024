@@ -4,15 +4,15 @@ extends CharacterBody2D
 @export_category("Movement")
 @export var baseSpeed := 200.0
 @export var scale_size := Vector2.ONE
-@export var dashSpeed := 3000.0
+@export var dashSpeed := 1000.0
 @export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
 @export var speedGrowth = 25.00
+@export var spitForce := 600.00
 
 @export_category("Stats") 
 @export var invulnerabilityTime := 1.0
-@export var maxAmmo : int = 3
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
@@ -21,7 +21,7 @@ extends CharacterBody2D
 @onready var damageTimer : Timer = $DamageTimer
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
-var fleshChunkPool := ScenePool.new(2)
+var fleshChunkPool := ScenePool.new(10)
 
 var waterMissileScene := preload("res://scenes/water_missle.tscn")
 var waterMissilePool := ScenePool.new(10)
@@ -31,9 +31,9 @@ var dashCharge := 0.0
 var overShrink := false
 var currentSpeed := baseSpeed
 var isRecovery := false
-var ammo : int = 0
+var pointDirection := Vector2.RIGHT
 
-const minScale := Vector2(0.5, 0.5)
+const minScale := Vector2(1.0, 1.0)
 const maxScale := Vector2(1000, 1000)
 const minScaleSpeed := 0.3
 const maxScaleSpeed := 4
@@ -57,7 +57,7 @@ func on_recovery_finished() :
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
 	var v_direction := Input.get_axis("ui_up", "ui_down")
-	var dash_direction := global_position.direction_to(get_global_mouse_position())
+	pointDirection = global_position.direction_to(get_global_mouse_position())
 	
 	arrow_sprite.look_at(get_global_mouse_position())
 	
@@ -65,9 +65,17 @@ func _physics_process(delta: float) -> void:
 		
 		System.PLAYER_STATES.IDLE :  
 			if(Input.is_action_just_pressed("left_click")) :
-				if(ammo > 0) : 
+				if(isFull()) : 
 					playerState = System.PLAYER_STATES.CHARGE
 				else :
+					emit_signal("damage")
+					
+			elif(Input.is_action_just_pressed("right_click")) :
+				if(isFull()) :
+					System.stomachSize = 0
+					System.stomachCapacity += 1
+					scaleTo(minScale) 
+				else : 
 					emit_signal("damage")
 					
 			if h_direction:
@@ -75,14 +83,12 @@ func _physics_process(delta: float) -> void:
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = clampf(velocity .x + (h_direction * currentSpeed), -maxSpeed, maxSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+				velocity.x = clampf(velocity .x + (h_direction * currentSpeed), -maxSpeed, maxSpeed)
 			else : 
 				velocity.x = move_toward(velocity.x, 0, currentSpeed / 5)
 				
 			if v_direction :
-				velocity.y = clampf(velocity.y + (v_direction * currentSpeed), -maxSpeed, maxSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
-			#else :
-				#velocity.y = move_toward(velocity.y, 0, currentSpeed / 5)
+				velocity.y = clampf(velocity.y + (v_direction * currentSpeed), -maxSpeed, maxSpeed)
 				
 		System.PLAYER_STATES.CHARGE :
 			Engine.time_scale = 0.2
@@ -91,29 +97,21 @@ func _physics_process(delta: float) -> void:
 				emit_signal("charge", zoomSpeed)
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
-				ammo -= 1
+				scaleTo(minScale)
 				emit_signal("charge_release")
 				emit_signal("damage")
 				grow( -(dashCharge / 3) )
-				#var callback = func() : 
-					#fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
-					#fleshChunkPool.getLastScene().isEdible = false
-					#fleshChunkPool.getLastScene().velocity = -dash_direction * currentSpeed * dashCharge
-					#fleshChunkPool.getLastScene().startTimer()
-				#fleshChunkPool.addAtPosition(
-					#global_position + (dash_direction * -100), 
-					#func() : return addChunk(-dash_direction), 
-					#callback)
-					
+
 				waterMissilePool.addAtPosition(
-					global_position + (dash_direction * -100), 
-					func() : return addWaterMissle(dash_direction), 
-					func() : reactivateWaterMissile(dash_direction))
+					global_position + (pointDirection * -100), 
+					func() : return addWaterMissle(pointDirection), 
+					func() : reactivateWaterMissile(pointDirection))
 
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
-			#velocity += (dash_direction * dashSpeed * dashCharge).round()
+			velocity += (-pointDirection * dashSpeed * dashCharge).round()
+			System.stomachSize = 0
 			dashCharge = 0
 			Engine.time_scale = 1.0
 			playerState = System.PLAYER_STATES.IDLE
@@ -132,14 +130,14 @@ func _physics_process(delta: float) -> void:
 	# Apply Weight
 	velocity.y = min(velocity.y + (scale_size.y * gravity), maxSpeed)
 	
-		
 	move_and_slide()
-	
+
+
 func addChunk(moveDirection : Vector2) -> FleshChunk : 
 	var newChunkInstance: FleshChunk = fleshChunkScene.instantiate()
 	newChunkInstance.size_scale = scale_size * 0.5
 	newChunkInstance.isEdible = false
-	newChunkInstance.velocity = moveDirection * currentSpeed * dashCharge
+	newChunkInstance.velocity = moveDirection * spitForce * (1 + randf_range(0.1, .7))
 	get_tree().root.add_child(newChunkInstance)
 	newChunkInstance.startTimer()
 	return newChunkInstance
@@ -166,12 +164,15 @@ func grow(rate: float) -> void :
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
 	sprite.scale += Vector2(-0.6 , 0.75)
-	#sprite.scale = clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
-	if(rate > 0) :
-		emit_signal("damage")
-		overShrink = false
-			
+func scaleTo(_scale: Vector2) -> void:
+	var newScale = clamp(_scale, minScale, maxScale)
+	
+	scale_size = newScale
+	collisionShape.scale = scale_size
+	arrow_sprite.scale = scale_size
+	sprite.scale += Vector2(-0.6 , 0.75)
+	 
 func evolve() : 		
 	System.player_level += 1 
 	System.player_xp = 0
@@ -202,21 +203,41 @@ func devolve() :
 		
 func take_damage() :
 	emit_signal("damage")
-	devolve()
+	#devolve()
 	sprite.self_modulate.a = 0.3
 	isRecovery = true
 	damageTimer.start(invulnerabilityTime)
-	if (System.player_level < 0) : 
+	if (System.stomachSize > 0) :
+		scaleTo(minScale)
+		var callback = func() : 
+			fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
+			fleshChunkPool.getLastScene().isEdible = false
+			fleshChunkPool.getLastScene().velocity = pointDirection * spitForce
+			fleshChunkPool.getLastScene().startTimer()
+		for i in System.stomachSize : 
+				fleshChunkPool.call_deferred("addAtPosition",
+					global_position + (pointDirection), 
+					func() : return addChunk(pointDirection), 
+					callback)
+	
+		System.stomachSize = 0
+	else :  
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
 
 func eat(growth_value : float, exp: int): 
+	emit_signal("damage")
 	eating.play()
 	grow(growth_value)
-	ammo += 1
+	print("StomachSize before eating : ", System.stomachSize)
+	System.stomachSize += 1
+	print("StomachSize after eating : ", System.stomachSize)
 	System.player_xp += exp
 	if(System.player_xp >= System.evolve_xp) : 
 		evolve()
+		
+func isFull() : 
+	return System.stomachSize >= System.stomachCapacity
 		
 func updateSizeScale(scale : float) : 
 	var newScale := Vector2(scale, scale)

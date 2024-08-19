@@ -32,7 +32,11 @@ func _on_body_entered(body: Node2D) -> void:
 		if(friendly or ( sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE )) :
 			if (friendly == false):
 				System.score += 1
-			player.eat(growth_value, experience)
+			if(player.isFull()) :
+				player.take_damage()
+			else :  
+				player.eat(growth_value, experience)
+				
 			deactivate()
 		elif(!player.isRecovery) :
 			player.grow(-shrink_value)

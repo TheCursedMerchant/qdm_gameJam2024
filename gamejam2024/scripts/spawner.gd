@@ -46,7 +46,7 @@ func _on_timer_timeout() -> void:
 	if(spawnSide.y != 0) : 
 		spawnPosition = Vector2(randf_range(100, get_viewport_rect().size.x), global_position.y)
 	
-	spawnPool.addAtPosition(
+	spawnPool.call_deferred("addAtPosition",
 		spawnPosition, 
 		spawn_fish,
 		func() : )
