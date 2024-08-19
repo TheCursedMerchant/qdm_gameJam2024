@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var dashChargeRate := 0.1
 @export var speedGrowth = 25.00
 @export var spitForce := 400.00
+@export var digestTime := 3.0
 
 @export_category("Stats") 
 @export var invulnerabilityTime := 1.0
@@ -19,6 +20,7 @@ extends CharacterBody2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
 @onready var eating = $Eating
 @onready var damageTimer : Timer = $DamageTimer
+@onready var digestTimer : Timer = $DigestTimer
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var fleshChunkPool := ScenePool.new(10)
@@ -48,11 +50,18 @@ signal damage
 
 func _ready() -> void:
 	damageTimer.connect("timeout", on_recovery_finished)
+	digestTimer.connect("timeout", on_digest_timeout)
 	System.player_body = self
 	
 func on_recovery_finished() : 
 	isRecovery = false
 	sprite.self_modulate.a = 1.0
+
+func on_digest_timeout() :
+	if(isFull()) : 
+		System.stomachSize = 0
+		System.stomachCapacity += 1
+		scaleTo(minScale)
 	
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -70,13 +79,13 @@ func _physics_process(delta: float) -> void:
 				else :
 					emit_signal("damage")
 					
-			elif(Input.is_action_just_pressed("right_click")) :
-				if(isFull()) :
-					System.stomachSize = 0
-					System.stomachCapacity += 1
-					scaleTo(minScale) 
-				else : 
-					emit_signal("damage")
+			#elif(Input.is_action_just_pressed("right_click")) :
+				#if(isFull()) :
+					#System.stomachSize = 0
+					#System.stomachCapacity += 1
+					#scaleTo(minScale) 
+				#else : 
+					#emit_signal("damage")
 					
 			if h_direction:
 				if h_direction > 0 : 
@@ -203,9 +212,9 @@ func eat(growth_value : float):
 	emit_signal("damage")
 	eating.play()
 	grow(growth_value)
-	print("StomachSize before eating : ", System.stomachSize)
 	System.stomachSize += 1
-	print("StomachSize after eating : ", System.stomachSize)
+	if (isFull()) : 
+		digestTimer.start(digestTime)
 
 func isFull() : 
 	return System.stomachSize >= System.stomachCapacity

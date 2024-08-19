@@ -31,3 +31,5 @@ script = ExtResource("5_hf6m6")
 [node name="DamageTimer" type="Timer" parent="."]
 
 [node name="HitStopTimer" type="Timer" parent="."]
+
+[node name="DigestTimer" type="Timer" parent="."]
