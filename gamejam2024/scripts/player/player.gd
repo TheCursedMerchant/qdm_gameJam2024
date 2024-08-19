@@ -20,9 +20,14 @@ extends CharacterBody2D
 @onready var damageTimer : Timer = $DamageTimer
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
+var fleshChunkPool := ScenePool.new(2)
+
+var waterMissileScene := preload("res://scenes/water_missle.tscn")
+var waterMissilePool := ScenePool.new(2)
+var waterMissileSpeed := 200.00
+
 var dashCharge := 0.0
 var overShrink := false
-var fleshChunkPool := ScenePool.new(2)
 var currentSpeed := baseSpeed
 var isRecovery := false
 
@@ -55,7 +60,7 @@ func _physics_process(delta: float) -> void:
 	match playerState :
 		
 		System.PLAYER_STATES.IDLE :  
-			if(Input.is_action_just_pressed("left_click")) :
+			if(Input.is_action_just_pressed("left_click") && scale_size > minScale) :
 				playerState = System.PLAYER_STATES.CHARGE
 			if h_direction:
 				if h_direction > 0 : 
@@ -74,13 +79,14 @@ func _physics_process(delta: float) -> void:
 		System.PLAYER_STATES.CHARGE :
 			Engine.time_scale = 0.2
 			velocity = Vector2.ZERO
-			if(Input.is_action_pressed("left_click")) :
+			if(Input.is_action_pressed("left_click") && dashCharge < 1.0) :
 				emit_signal("charge", zoomSpeed)
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
 				emit_signal("charge_release")
 				emit_signal("damage")
 				grow( -(dashCharge / 3) )
+				
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
 					fleshChunkPool.getLastScene().isEdible = false
@@ -90,6 +96,12 @@ func _physics_process(delta: float) -> void:
 					global_position + (dash_direction * -100), 
 					func() : return addChunk(-dash_direction), 
 					callback)
+					
+				waterMissilePool.addAtPosition(
+					global_position + (dash_direction * -100), 
+					func() : return addWaterMissle(-dash_direction), 
+					func() : reactivateWaterMissile(-dash_direction))
+
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
@@ -120,6 +132,20 @@ func addChunk(moveDirection : Vector2) -> FleshChunk :
 	newChunkInstance.startTimer()
 	return newChunkInstance
 	
+func addWaterMissle(moveDirection : Vector2) -> WaterMissile :
+	var waterMissile: WaterMissile = waterMissileScene.instantiate()
+	waterMissile.direction = moveDirection
+	waterMissile.rotation = Vector2.RIGHT.angle_to(moveDirection)
+	get_tree().root.add_child(waterMissile)
+	waterMissile.updateScale(scale_size)
+	return waterMissile
+	
+func reactivateWaterMissile( moveDirection : Vector2 ) :
+	waterMissilePool.getLastScene().direction = moveDirection
+	waterMissilePool.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
+	waterMissilePool.getLastScene().isActive = true
+	waterMissilePool.getLastScene().updateScale(scale_size)
+	
 func grow(rate: float) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
 	var newScale = clamp(growthVector, minScale, maxScale)
@@ -127,17 +153,12 @@ func grow(rate: float) -> void :
 	scale_size = newScale
 	collisionShape.scale = scale_size
 	arrow_sprite.scale = scale_size
-	sprite.scale =  clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
+	sprite.scale += Vector2(-0.6 , 0.75)
+	#sprite.scale = clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
 	if(rate > 0) :
 		emit_signal("damage")
 		overShrink = false
-
-	if (growthVector < minScale) :
-		if (overShrink) :
-			take_damage()
-		else : 
-			overShrink = true
 			
 func evolve() : 		
 	System.player_level += 1 
@@ -147,9 +168,9 @@ func evolve() :
 	
 	currentSpeed = baseSpeed + (speedGrowth * System.player_level)
 	
-	if(System.player_level < 7) :
+	if(System.player_level < 5) :
 		sprite.texture = GameRes.playerTextures[0]	
-	elif(System.player_level < 11) : 
+	elif(System.player_level < 9) : 
 		sprite.texture = GameRes.playerTextures[1]
 	else: 
 		sprite.texture = GameRes.playerTextures[2]
@@ -160,11 +181,11 @@ func devolve() :
 	System.evolve_xp = round(System.evolve_xp * 0.7)
 	System.remaining_xp = System.evolve_xp - System.player_xp
 	
-	if(System.player_level < 3) :
+	if(System.player_level < 5) :
 		sprite.texture = GameRes.playerTextures[0]	
-	elif(System.player_level < 7) : 
+	elif(System.player_level < 9) : 
 		sprite.texture = GameRes.playerTextures[1]
-	elif(System.player_level < 12): 
+	else: 
 		sprite.texture = GameRes.playerTextures[2]
 		
 func take_damage() :

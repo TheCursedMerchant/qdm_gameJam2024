@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh1cj6qncxhe2"]
+
+[ext_resource type="Script" path="res://scripts/player/water_missle.gd" id="1_enkon"]
+[ext_resource type="Texture2D" uid="uid://dn3cvx643so8b" path="res://POC/sonic_boom.png" id="1_vpjdq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5f46a"]
+size = Vector2(16, 22)
+
+[node name="WaterMissle" type="Area2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_enkon")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_vpjdq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 2)
+shape = SubResource("RectangleShape2D_5f46a")
+
+[node name="LifeTimeTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

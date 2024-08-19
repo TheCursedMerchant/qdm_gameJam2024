@@ -60,7 +60,7 @@ func spawn_fish() -> Fish:
 	if(fish_direction.y > 0 ):
 		new_fish.global_rotation_degrees = 90
 	elif(fish_direction.y < 0):
-		new_fish.global_rotation_degrees = 0
+		new_fish.global_rotation_degrees = -90
 		
 	return new_fish
 	

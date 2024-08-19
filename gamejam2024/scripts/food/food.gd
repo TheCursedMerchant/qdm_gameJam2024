@@ -9,7 +9,7 @@ extends Area2D
 @export var off_screen_location := Vector2(-1000, 0)
 @export var friendly := false
 
-@onready var sprite = $Sprite2D
+@onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape = $CollisionShape2D
 @onready var hitStopTimer : Timer = $HitStopTimer
 
