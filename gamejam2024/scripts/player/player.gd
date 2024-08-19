@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
 @export var speedGrowth = 25.00
-@export var spitForce := 600.00
+@export var spitForce := 400.00
 
 @export_category("Stats") 
 @export var invulnerabilityTime := 1.0
@@ -146,15 +146,18 @@ func addWaterMissle(moveDirection : Vector2) -> WaterMissile :
 	var waterMissile: WaterMissile = waterMissileScene.instantiate()
 	waterMissile.direction = moveDirection
 	waterMissile.rotation = Vector2.RIGHT.angle_to(moveDirection)
+	waterMissile.hitCallback = func() : emit_signal("damage")
 	get_tree().root.add_child(waterMissile)
 	waterMissile.updateScale(scale_size)
 	return waterMissile
 	
 func reactivateWaterMissile( moveDirection : Vector2 ) :
-	waterMissilePool.getLastScene().direction = moveDirection
-	waterMissilePool.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
-	waterMissilePool.getLastScene().isActive = true
-	waterMissilePool.getLastScene().updateScale(scale_size)
+	var waterMissile = waterMissilePool.getLastScene()
+	waterMissile.direction = moveDirection
+	waterMissile.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
+	waterMissile.getLastScene().isActive = true
+	waterMissile.getLastScene().updateScale(scale_size)
+	# waterMissile.hitCallback = func() : emit_signal("damage")
 	
 func grow(rate: float) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
