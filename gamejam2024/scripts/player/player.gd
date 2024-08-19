@@ -35,6 +35,7 @@ const zoomSpeed := Vector2(0.003, 0.003)
 signal charge(zoomRate: Vector2)
 signal charge_release
 signal death
+signal damage
 
 func _ready() -> void:
 	damageTimer.connect("timeout", on_recovery_finished)
@@ -80,6 +81,7 @@ func _physics_process(delta: float) -> void:
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
 				emit_signal("charge_release")
+				emit_signal("damage")
 				grow( -(dashCharge / 3) )
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
@@ -121,6 +123,7 @@ func grow(rate: float) -> void :
 	sprite.scale =  clamp(sprite.scale + Vector2(-0.6 , 0.75), minScale, maxScale)
 	
 	if(rate > 0) :
+		emit_signal("damage")
 		overShrink = false
 
 	if (growthVector < minScale) :
@@ -158,6 +161,7 @@ func devolve() :
 		sprite.texture = GameRes.playerTextures[2]
 		
 func take_damage() :
+	emit_signal("damage")
 	devolve()
 	sprite.self_modulate.a = 0.5
 	isRecovery = true

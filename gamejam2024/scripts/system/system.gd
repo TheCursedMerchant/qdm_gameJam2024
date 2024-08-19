@@ -8,10 +8,14 @@ enum PLAYER_STATES {
 }
 
 var score = 0
-var player_level = 2
+var player_level = 0
 var player_xp = 0
 var remaining_xp = 0
 var evolve_xp = 50
 
 func getRemainingXp() -> int : 
 	return evolve_xp - player_xp
+	
+const HIT_SHAKE_DURATION := 0.5
+const HIT_SHAKE_FREQUENCY := 6.0
+const HIT_SHAKE_AMPLITUDE := 3
