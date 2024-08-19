@@ -39,6 +39,7 @@ signal damage
 
 func _ready() -> void:
 	damageTimer.connect("timeout", on_recovery_finished)
+	System.player_body = self
 	
 func on_recovery_finished() : 
 	isRecovery = false
