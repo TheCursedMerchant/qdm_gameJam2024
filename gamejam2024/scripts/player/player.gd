@@ -8,18 +8,23 @@ extends CharacterBody2D
 @export var playerState := System.PLAYER_STATES.IDLE
 @export var maxDashCharge := 1.0
 @export var dashChargeRate := 0.1
-@export var speedGrowth = 25.00 
+@export var speedGrowth = 25.00
+
+@export_category("Stats") 
+@export var invulnerabilityTime := 1.0
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
 @onready var eating = $Eating
+@onready var damageTimer : Timer = $DamageTimer
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
 var fleshChunkPool := ScenePool.new(1)
 var currentSpeed := baseSpeed
+var isRecovery := false
 
 const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
@@ -30,6 +35,15 @@ const zoomSpeed := Vector2(0.003, 0.003)
 signal charge(zoomRate: Vector2)
 signal charge_release
 signal death
+
+func _ready() -> void:
+	damageTimer.connect("timeout", on_recovery_finished)
+	
+
+func on_recovery_finished() : 
+	isRecovery = false
+	sprite.self_modulate.a = 1.0
+	
 
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -136,8 +150,6 @@ func devolve() :
 	System.evolve_xp = round(System.evolve_xp * 0.7)
 	System.remaining_xp = System.evolve_xp - System.player_xp
 	
-	#grow(-scale_size.x * 0.5)
-	
 	if(System.player_level < 3) :
 		sprite.texture = GameRes.playerTextures[0]	
 	elif(System.player_level < 7) : 
@@ -147,6 +159,9 @@ func devolve() :
 		
 func take_damage() :
 	devolve()
+	sprite.self_modulate.a = 0.5
+	isRecovery = true
+	damageTimer.start(invulnerabilityTime)
 	if (System.player_level < 0) : 
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")

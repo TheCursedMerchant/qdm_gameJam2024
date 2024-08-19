@@ -23,10 +23,11 @@ func _ready() -> void :
 # if food is eaten or player is eaten
 func _on_body_entered(body: Node2D) -> void:
 	var sprite_size = sprite.get_rect().size * sprite.scale
-	if(isEdible && body.get_groups().has("Player")) :
+	if(isEdible && body.get_groups().has("Player") && !body.isRecovery) :
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
-		if((friendly or (sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE)) ) :
+		
+		if(friendly or ( sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE )) :
 			player.eating.play()
 			player.grow(growth_value)
 			System.player_xp += experience
