@@ -51,7 +51,7 @@ func _on_timer_timeout() -> void:
 		spawn_fish,
 		func() : )
 
-func spawn_fish(fish_scene) -> Fish: 
+func spawn_fish() -> Fish: 
 	var new_fish : Fish = fish_scene.instantiate()
 	new_fish.direction = fish_direction
 	add_child(new_fish)
