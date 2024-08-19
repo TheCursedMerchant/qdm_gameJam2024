@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://c00tktt3y0e2d"
-path="res://.godot/imported/nomshort.wav-6fc336968b90f4eb07ae21ef70e3d254.sample"
+uid="uid://taohu2khwjws"
+path="res://.godot/imported/crunchsound.wav-0607ea451bbd474ec3dfd352f61ac929.sample"
 
 [deps]
 
-source_file="res://assets/audio/nomshort.wav"
-dest_files=["res://.godot/imported/nomshort.wav-6fc336968b90f4eb07ae21ef70e3d254.sample"]
+source_file="res://audio/crunchsound.wav"
+dest_files=["res://.godot/imported/crunchsound.wav-0607ea451bbd474ec3dfd352f61ac929.sample"]
 
 [params]
 

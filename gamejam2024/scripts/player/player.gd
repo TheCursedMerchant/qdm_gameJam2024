@@ -20,6 +20,8 @@ extends CharacterBody2D
 @onready var arrow_sprite : Sprite2D = $ArrowSprite
 @onready var eating = $Eating
 @onready var damageTimer : Timer = $DamageTimer
+@onready var damagesfx = $PlayerHit
+@onready var attack = $PlayerAttack
 @onready var digestTimer : Timer = $DigestTimer
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
@@ -103,6 +105,7 @@ func _physics_process(delta: float) -> void:
 				emit_signal("damage")
 				grow( -(dashCharge / 3) )
 
+				attack.play()
 				waterMissilePool.addAtPosition(
 					global_position + (pointDirection * -100), 
 					func() : return addWaterMissle(pointDirection), 
@@ -182,6 +185,7 @@ func take_damage() :
 	sprite.self_modulate.a = 0.3
 	isRecovery = true
 	damageTimer.start(invulnerabilityTime)
+	damagesfx.play()
 	if (System.stomachSize > 0) :
 		scaleTo(minScale)
 		var callback = func() : 

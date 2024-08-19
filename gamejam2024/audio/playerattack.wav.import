@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://djvogs81a54v0"
-path="res://.godot/imported/background.wav-76e1a6861e14bde2626a5bd80ce257eb.sample"
+uid="uid://ctfcef38wyf4r"
+path="res://.godot/imported/playerattack.wav-56b30cbd56ef6d0cbf0787810c4b6ff4.sample"
 
 [deps]
 
-source_file="res://assets/audio/background.wav"
-dest_files=["res://.godot/imported/background.wav-76e1a6861e14bde2626a5bd80ce257eb.sample"]
+source_file="res://audio/playerattack.wav"
+dest_files=["res://.godot/imported/playerattack.wav-56b30cbd56ef6d0cbf0787810c4b6ff4.sample"]
 
 [params]
 
