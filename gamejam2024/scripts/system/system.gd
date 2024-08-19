@@ -30,3 +30,5 @@ const HIT_SHAKE_FREQUENCY := 6.0
 const HIT_SHAKE_AMPLITUDE := 3
 
 var masterVolume = 0.75
+
+var hunterTime = 10

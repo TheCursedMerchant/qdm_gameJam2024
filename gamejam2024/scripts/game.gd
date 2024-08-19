@@ -5,7 +5,6 @@ extends Node2D
 @onready var scoreboard = $CanvasLayer/Scoreboard
 @onready var death_screen = $CanvasLayer/Death
 @onready var spawner = $Spawner_D1
-@onready var hunterTime = 10
 
 func _ready() -> void:
 	player.connect("charge", camera.updateZoom)

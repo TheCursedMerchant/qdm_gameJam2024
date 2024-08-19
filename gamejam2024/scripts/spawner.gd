@@ -3,6 +3,7 @@ extends Node2D
 
 var fish_scene = preload("res://scenes/fish.tscn")
 var hunter_scene = preload("res://scenes/hunter_fish.tscn")
+var puffer_scene = preload("res://scenes/puffer_fish.tscn")
 var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
@@ -50,8 +51,12 @@ func _on_timer_timeout() -> void:
 		spawnPosition, 
 		spawn_fish,
 		func() : )
+	#spawnPool.call_deferred("addAtPosition",
+		#spawnPosition, 
+		#func() : spawn_fish(chosenfish),
+		#func() : )
 
-func spawn_fish() -> Fish: 
+func spawn_fish() -> Fish: #func spawn_fish(chosenfish) -> Fish:
 	var new_fish : Fish = fish_scene.instantiate()
 	new_fish.direction = fish_direction
 	add_child(new_fish)
@@ -67,7 +72,7 @@ func spawn_fish() -> Fish:
 		
 	return new_fish
 
-# If timer > n isHunting = active
+# If timer > n isHunting = active---needs to connect to the game timer?(System?)
 func spawn_hunter() -> Fish:
 	var new_hunter: Fish = hunter_scene.instantiate()
 	
