@@ -29,6 +29,8 @@ func canSpawnHunter() -> bool :
 func resetDisplayParams() : 
 	score = 0
 	stomachSize = 0
+	activeHunters = 0
+	difficultyModifier = 0
 	stomachCapacity = 1
 
 func getRemainingXp() -> int : 
@@ -40,3 +42,5 @@ const HIT_SHAKE_AMPLITUDE := 3
 
 # Settings
 var masterVolume = 0.75
+
+var hunterTime = 10
