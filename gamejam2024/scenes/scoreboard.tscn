@@ -17,20 +17,24 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 61.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 740
+size_flags_horizontal = 4
+theme_override_constants/separation = 700
 
-[node name="Level" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="Exp" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Level : "
+text = "Xp : 0/50"
 
 [node name="Score" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
+
+[node name="Level" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Level : 0"
