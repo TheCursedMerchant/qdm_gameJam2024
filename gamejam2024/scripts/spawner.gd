@@ -4,6 +4,8 @@ extends Node2D
 var fish_scene = preload("res://scenes/fish.tscn")
 var hunter_scene = preload("res://scenes/hunter_fish.tscn")
 var puffer_scene = preload("res://scenes/puffer_fish.tscn")
+
+var fish_scenes : Array = [fish_scene, hunter_scene]
 var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
@@ -15,10 +17,10 @@ var starting_position_range = randi_range(-250,0)
 
 @onready var spawn_timer := $Timer
 
-var spawnPool : ScenePool = ScenePool.new(3)
+var basicFishPool : ScenePool = ScenePool.new(3)
+var hunterFishPool : ScenePool = ScenePool.new(3)
 
-func _ready() -> void :
-	pass
+var spawnPools : Array = [basicFishPool, hunterFishPool]
 
 func _process(delta: float) -> void:
 	if initial_start && isActive:
@@ -47,17 +49,16 @@ func _on_timer_timeout() -> void:
 	if(spawnSide.y != 0) : 
 		spawnPosition = Vector2(randf_range(100, get_viewport_rect().size.x), global_position.y)
 	
+	var index = getRandomFishIndex()
+	var spawnPool : ScenePool = spawnPools[index]
+	
 	spawnPool.call_deferred("addAtPosition",
 		spawnPosition, 
-		spawn_fish,
+		func() : return spawn_fish(fish_scenes[index]),
 		func() : )
-	#spawnPool.call_deferred("addAtPosition",
-		#spawnPosition, 
-		#func() : spawn_fish(chosenfish),
-		#func() : )
 
-func spawn_fish() -> Fish: #func spawn_fish(chosenfish) -> Fish:
-	var new_fish : Fish = fish_scene.instantiate()
+func spawn_fish(scene : PackedScene) -> Fish: 
+	var new_fish : Fish = scene.instantiate()
 	new_fish.direction = fish_direction
 	add_child(new_fish)
 	if(fish_direction.x > 0 ):
@@ -71,10 +72,14 @@ func spawn_fish() -> Fish: #func spawn_fish(chosenfish) -> Fish:
 		new_fish.global_rotation_degrees = -90
 		
 	return new_fish
-
-# If timer > n isHunting = active---needs to connect to the game timer?(System?)
-func spawn_hunter() -> Fish:
-	var new_hunter: Fish = hunter_scene.instantiate()
 	
-	return new_hunter
+func getRandomFishIndex() -> int :
+	var index = randi_range(0, fish_scenes.size() - 1)
+	
+	if (index == 1 && System.canSpawnHunter()) : 
+		System.activeHunters += 1
+	else : 
+		index = 0
+		
+	return index
 	

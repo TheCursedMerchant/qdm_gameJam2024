@@ -17,9 +17,20 @@ var stomachSize = 0
 var stomachCapacity = 1
 var player_body : CharacterBody2D
 
+# Spawn Config
+var hunterCap = 1
+var activeHunters = 0
+var difficultyModifier := 0.0
+var difficultyPeriod := 10.0
+
+func canSpawnHunter() -> bool : 
+	return activeHunters < hunterCap
+
 func resetDisplayParams() : 
 	score = 0
 	stomachSize = 0
+	activeHunters = 0
+	difficultyModifier = 0
 	stomachCapacity = 1
 
 func getRemainingXp() -> int : 
@@ -29,6 +40,7 @@ const HIT_SHAKE_DURATION := 0.5
 const HIT_SHAKE_FREQUENCY := 6.0
 const HIT_SHAKE_AMPLITUDE := 3
 
+# Settings
 var masterVolume = 0.75
 
 var hunterTime = 10
