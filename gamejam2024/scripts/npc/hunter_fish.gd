@@ -1,28 +1,28 @@
+class_name Hunter
 extends CharacterBody2D
 
-@onready var directions = [Vector2.RIGHT,Vector2.LEFT,Vector2.DOWN,Vector2.UP]
-@onready var huntingTimer:= $HuntTimer
-
+@export var direction := Vector2.RIGHT
 @export var baseSpeed = 300
-var player: CharacterBody2D
+
+@onready var huntingTimer:= $HuntTimer
 
 # The fish does not immediately start hunting the player.
 var isHunting := false
-
+var player: CharacterBody2D
 
 func _ready() -> void:
 	huntingTimer.start()
-	isHunting = true
 	
 func _process(delta: float) -> void:
-	move_and_slide()
+	fish_movement()
 
 func fish_movement():
-	pass
-
-func targeted_movement():
 	if isHunting:
 		player = System.player_body
 		velocity = position.direction_to(player.position) * baseSpeed
+	else:
+		velocity = direction * baseSpeed
 	move_and_slide()
 	
+func _on_hunt_timer_timeout() -> void:
+	isHunting = true
