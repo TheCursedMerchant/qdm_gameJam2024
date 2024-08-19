@@ -1,5 +1,7 @@
 class_name PufferFish
 extends "res://scripts/npc/fish.gd"
+
+var stinger = preload("res://scenes/puffer_fish_stinger.tscn")
 var player: CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
@@ -21,4 +23,5 @@ func fish_movement(delta):
 		attack()
 	
 func attack():
+	#var fired = stinger.instantiate()
 	print("I attack.")

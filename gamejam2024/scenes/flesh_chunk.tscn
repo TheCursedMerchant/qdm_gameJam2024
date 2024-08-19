@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bnh4pnmcsut8r" path="res://assets/art/food_chunk.png" id="2_cruwh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1h7bx"]
-radius = 32.0
+radius = 20.025
 
 [node name="FleshChunk" type="Area2D" groups=["Food"]]
 script = ExtResource("1_7gjbv")
@@ -15,6 +15,7 @@ modulate = Color(1, 0.59, 0.59, 1)
 texture = ExtResource("2_cruwh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_1h7bx")
 
 [node name="Timer" type="Timer" parent="."]
