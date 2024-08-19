@@ -19,7 +19,6 @@ extends CharacterBody2D
 @onready var eating = $Eating
 @onready var damageTimer : Timer = $DamageTimer
 
-
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
@@ -40,6 +39,7 @@ signal damage
 
 func _ready() -> void:
 	damageTimer.connect("timeout", on_recovery_finished)
+	System.player_body = self
 	
 func on_recovery_finished() : 
 	isRecovery = false

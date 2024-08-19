@@ -12,6 +12,7 @@ var player_level = 0
 var player_xp = 0
 var remaining_xp = 0
 var evolve_xp = 50
+var player_body : CharacterBody2D
 
 func getRemainingXp() -> int : 
 	return evolve_xp - player_xp
