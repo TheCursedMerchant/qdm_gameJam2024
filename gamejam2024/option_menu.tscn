@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi065vr81mnvi"]
+
+[ext_resource type="Script" path="res://option_menu.gd" id="1_hxhh1"]
+
+[node name="Option Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 123.0
+offset_top = 2.0
+offset_right = 123.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_hxhh1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 302.305
+offset_top = 136.847
+offset_right = 1321.31
+offset_bottom = 862.847
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Master Volume"
+
+[node name="MasterVolume" type="HSlider" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+max_value = 1.0
+step = 0.05
+
+[node name="Apply" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Apply"
+
+[node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Back"
+
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/MasterVolume" to="." method="_on_master_volume_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Apply" to="." method="_on_apply_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_options_pressed"]
