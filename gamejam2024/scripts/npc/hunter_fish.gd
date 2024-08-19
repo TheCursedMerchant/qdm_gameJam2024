@@ -37,3 +37,7 @@ func _on_body_entered_hunter(body: Node2D):
 		if (!player.isRecovery):
 			isHunting = false
 			huntingTimer.start()
+			
+func deactivate() : 
+	super.deactivate()
+	System.activeHunters -= 1

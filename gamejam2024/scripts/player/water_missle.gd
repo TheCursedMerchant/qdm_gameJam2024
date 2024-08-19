@@ -10,7 +10,7 @@ class_name WaterMissile
 var direction := Vector2.RIGHT
 var isActive := true
 var size_scale := Vector2.ONE
-var hitCallback : Callable
+var hitCallback : Callable = func () : pass
 
 func _ready() -> void:
 	updateScale(size_scale)
