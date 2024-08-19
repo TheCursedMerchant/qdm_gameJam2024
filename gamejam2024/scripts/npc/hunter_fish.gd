@@ -9,6 +9,7 @@ extends "res://scripts/food/food.gd"
 
 # The fish does not immediately start hunting the player.
 var isHunting := false
+var isSplit := false
 var player: CharacterBody2D
 
 func _ready() -> void:
@@ -17,7 +18,7 @@ func _ready() -> void:
 	connect("body_entered",_on_body_entered_hunter)
 	player = System.player_body
 	
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	fish_movement(delta)
 
 func fish_movement(delta):
@@ -38,7 +39,11 @@ func _on_body_entered_hunter(body: Node2D):
 		isHunting = false
 		huntingTimer.start()
 		if (!player.isRecovery):
-			#player.grow(-shrinkValue)
-			#player.take_damage()
+			player.grow(-shrinkValue)
+			player.take_damage()
 			pass
+			
+func take_damage() :
+	deactivate() 
+	pass
 	

@@ -4,11 +4,11 @@ extends "res://scripts/food/food.gd"
 @onready var squishTimer := $SquishTimer
 
 @export_category("Movement")
-@export var speed : float = 1000.0
+@export var speed : float = 850.0
 @export var direction := Vector2.RIGHT
 
-var childrenFishScene := preload("res://scenes/fish.tscn")
-var fishPool := ScenePool.new(2)
+var childrenFishScene := preload("res://scenes/food.tscn")
+var foodPool := ScenePool.new(2)
 var isSplit := false
 
 func _ready() -> void :
@@ -19,13 +19,12 @@ func _ready() -> void :
 	squishTimer.connect("timeout", on_squish_timeout)
 	super._ready()
 
-func _process(delta) :
-	sprite.scale.x = lerp(sprite.scale.x, size_scale.x, 0.2)
-	sprite.scale.y = lerp(sprite.scale.y, size_scale.y, 0.2)
-
 func _physics_process(delta: float) -> void :
 	if(isActive) : 
 		global_position += (direction * speed) * delta
+		
+	#sprite.scale.x = lerp(sprite.scale.x, size_scale.x, 0.2)
+	#sprite.scale.y = lerp(sprite.scale.y, size_scale.y, 0.2)
 		
 func reactivate() :
 	isActive = true
@@ -35,32 +34,25 @@ func reactivate() :
 	
 func take_damage() :
 	sprite.scale += Vector2(-0.6 , 0.75)
-	fishPool.call_deferred("addAtPosition" ,global_position + Vector2(60, 0), addFish, reactivateFish)
-	fishPool.call_deferred("addAtPosition" ,global_position + Vector2(-60 ,0), addFish, reactivateFish)
+	foodPool.call_deferred("addAtPosition" ,global_position + Vector2(-60 ,0), addFood, reactivateFood)
 	#squishTimer.start(0.2)
 	deactivate()
 	
-func addFish() -> Fish : 
-	var fishInstance : Fish = childrenFishScene.instantiate()
-	fishInstance.speed = speed
-	fishInstance.direction = direction
-	fishInstance.rotation = rotation
-	fishInstance.isSplit = true
-	get_tree().root.add_child(fishInstance)
-	fishInstance.sprite.flip_h = sprite.flip_h
-	fishInstance.updateSize(size_scale * 0.5)
-	fishInstance.sprite.texture = sprite.texture
-	return fishInstance
+func addFood() -> Food : 
+	var foodInstance : Food = childrenFishScene.instantiate()
+	get_tree().root.add_child(foodInstance)
+	foodInstance.updateSize(size_scale * 0.5)
+	foodInstance.sprite.texture = sprite.texture
+	foodInstance.sprite.flip_v = true
+	foodInstance.friendly = true
+	return foodInstance
 	
-func reactivateFish() : 
-	var lastScene : Fish = fishPool.getLastScene()
-	lastScene.speed = speed
-	lastScene.direction = direction
-	lastScene.sprite.flip_h = sprite.flip_h
-	lastScene.rotation = rotation
+func reactivateFood() : 
+	var lastScene : Food = foodPool.getLastScene()
 	lastScene.updateSize(size_scale * 0.5)
-	lastScene.isSplit = true
 	lastScene.sprite.texture = sprite.texture
+	lastScene.sprite.flip_v = true
+	lastScene.friendly = true
 	
 func on_squish_timeout() : 
 	deactivate()

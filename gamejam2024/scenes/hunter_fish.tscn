@@ -16,3 +16,5 @@ shape = SubResource("RectangleShape2D_ge781")
 
 [node name="HuntTimer" type="Timer" parent="."]
 wait_time = 3.0
+
+[node name="HitStopTimer" type="Timer" parent="."]

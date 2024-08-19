@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 @export_category("Movement")
-@export var baseSpeed := 600.0
+@export var baseSpeed := 200.0
 @export var scale_size := Vector2.ONE
 @export var dashSpeed := 3000.0
 @export var playerState := System.PLAYER_STATES.IDLE
@@ -12,6 +12,7 @@ extends CharacterBody2D
 
 @export_category("Stats") 
 @export var invulnerabilityTime := 1.0
+@export var maxAmmo : int = 3
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
@@ -23,19 +24,22 @@ var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var fleshChunkPool := ScenePool.new(2)
 
 var waterMissileScene := preload("res://scenes/water_missle.tscn")
-var waterMissilePool := ScenePool.new(2)
-var waterMissileSpeed := 200.00
+var waterMissilePool := ScenePool.new(10)
+var waterMissileSpeed := 1000.00
 
 var dashCharge := 0.0
 var overShrink := false
 var currentSpeed := baseSpeed
 var isRecovery := false
+var ammo : int = 0
 
 const minScale := Vector2(0.5, 0.5)
 const maxScale := Vector2(1000, 1000)
 const minScaleSpeed := 0.3
 const maxScaleSpeed := 4
 const zoomSpeed := Vector2(0.003, 0.003)
+const gravity := 20.00
+const maxSpeed := 600.00
 
 signal charge(zoomRate: Vector2)
 signal charge_release
@@ -60,21 +64,25 @@ func _physics_process(delta: float) -> void:
 	match playerState :
 		
 		System.PLAYER_STATES.IDLE :  
-			if(Input.is_action_just_pressed("left_click") && scale_size > minScale) :
-				playerState = System.PLAYER_STATES.CHARGE
+			if(Input.is_action_just_pressed("left_click")) :
+				if(ammo > 0) : 
+					playerState = System.PLAYER_STATES.CHARGE
+				else :
+					emit_signal("damage")
+					
 			if h_direction:
 				if h_direction > 0 : 
 					sprite.flip_h = false
 				else : 
 					sprite.flip_h = true 
-				velocity.x = (h_direction * currentSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
+				velocity.x = clampf(velocity .x + (h_direction * currentSpeed), -maxSpeed, maxSpeed) #/ clampf(scale_size.x * 1.5, minScaleSpeed, maxScaleSpeed)
 			else : 
 				velocity.x = move_toward(velocity.x, 0, currentSpeed / 5)
 				
 			if v_direction :
-				velocity.y = (v_direction * currentSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
-			else :
-				velocity.y = move_toward(velocity.y, 0, currentSpeed / 5)
+				velocity.y = clampf(velocity.y + (v_direction * currentSpeed), -maxSpeed, maxSpeed) #/ clamp((scale_size.y * 1.5), minScaleSpeed, maxScaleSpeed)
+			#else :
+				#velocity.y = move_toward(velocity.y, 0, currentSpeed / 5)
 				
 		System.PLAYER_STATES.CHARGE :
 			Engine.time_scale = 0.2
@@ -83,29 +91,29 @@ func _physics_process(delta: float) -> void:
 				emit_signal("charge", zoomSpeed)
 				dashCharge = clamp(dashCharge + dashChargeRate, 0.0, maxDashCharge)
 			else : 
+				ammo -= 1
 				emit_signal("charge_release")
 				emit_signal("damage")
 				grow( -(dashCharge / 3) )
-				
-				var callback = func() : 
-					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
-					fleshChunkPool.getLastScene().isEdible = false
-					fleshChunkPool.getLastScene().velocity = -dash_direction * currentSpeed * dashCharge
-					fleshChunkPool.getLastScene().startTimer()
-				fleshChunkPool.addAtPosition(
-					global_position + (dash_direction * -100), 
-					func() : return addChunk(-dash_direction), 
-					callback)
+				#var callback = func() : 
+					#fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
+					#fleshChunkPool.getLastScene().isEdible = false
+					#fleshChunkPool.getLastScene().velocity = -dash_direction * currentSpeed * dashCharge
+					#fleshChunkPool.getLastScene().startTimer()
+				#fleshChunkPool.addAtPosition(
+					#global_position + (dash_direction * -100), 
+					#func() : return addChunk(-dash_direction), 
+					#callback)
 					
 				waterMissilePool.addAtPosition(
 					global_position + (dash_direction * -100), 
-					func() : return addWaterMissle(-dash_direction), 
-					func() : reactivateWaterMissile(-dash_direction))
+					func() : return addWaterMissle(dash_direction), 
+					func() : reactivateWaterMissile(dash_direction))
 
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
-			velocity += (dash_direction * dashSpeed * dashCharge).round()
+			#velocity += (dash_direction * dashSpeed * dashCharge).round()
 			dashCharge = 0
 			Engine.time_scale = 1.0
 			playerState = System.PLAYER_STATES.IDLE
@@ -120,6 +128,10 @@ func _physics_process(delta: float) -> void:
 	
 	# Fade alpha back to opaque
 	sprite.self_modulate.a = lerp(sprite.self_modulate.a, 1.0, 0.05)
+	
+	# Apply Weight
+	velocity.y = min(velocity.y + (scale_size.y * gravity), maxSpeed)
+	
 		
 	move_and_slide()
 	
@@ -197,6 +209,14 @@ func take_damage() :
 	if (System.player_level < 0) : 
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
+
+func eat(growth_value : float, exp: int): 
+	eating.play()
+	grow(growth_value)
+	ammo += 1
+	System.player_xp += exp
+	if(System.player_xp >= System.evolve_xp) : 
+		evolve()
 		
 func updateSizeScale(scale : float) : 
 	var newScale := Vector2(scale, scale)
