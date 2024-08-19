@@ -66,5 +66,10 @@ func spawn_fish() -> Fish:
 		new_fish.global_rotation_degrees = -90
 		
 	return new_fish
-	
+
 # If timer > n isHunting = active
+func spawn_hunter() -> Fish:
+	var new_hunter: Fish = hunter_scene.instantiate()
+	
+	return new_hunter
+	

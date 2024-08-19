@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nctmb"]
 
-[node name="PufferFish" type="Area2D"]
+[node name="PufferFish" type="Area2D" groups=["Enemy"]]
 script = ExtResource("1_7fxwi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -13,3 +13,7 @@ texture = ExtResource("2_3l4uh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_nctmb")
+
+[node name="HitStopTimer" type="Timer" parent="."]
+
+[node name="SquishTimer" type="Timer" parent="."]
