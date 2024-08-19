@@ -22,7 +22,7 @@ extends CharacterBody2D
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var dashCharge := 0.0
 var overShrink := false
-var fleshChunkPool := ScenePool.new(1)
+var fleshChunkPool := ScenePool.new(2)
 var currentSpeed := baseSpeed
 var isRecovery := false
 
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 				velocity.y = move_toward(velocity.y, 0, currentSpeed / 5)
 				
 		System.PLAYER_STATES.CHARGE :
-			Engine.time_scale = 0.3
+			Engine.time_scale = 0.2
 			velocity = Vector2.ZERO
 			if(Input.is_action_pressed("left_click")) :
 				emit_signal("charge", zoomSpeed)
@@ -83,8 +83,12 @@ func _physics_process(delta: float) -> void:
 				var callback = func() : 
 					fleshChunkPool.getLastScene().updateSize(scale_size * 0.5)
 					fleshChunkPool.getLastScene().isEdible = false
+					fleshChunkPool.getLastScene().velocity = -dash_direction * currentSpeed * dashCharge
 					fleshChunkPool.getLastScene().startTimer()
-				fleshChunkPool.addAtPosition(global_position + (dash_direction * -100), addChunk, callback)
+				fleshChunkPool.addAtPosition(
+					global_position + (dash_direction * -100), 
+					func() : return addChunk(-dash_direction), 
+					callback)
 				playerState = System.PLAYER_STATES.DASH
 				
 		System.PLAYER_STATES.DASH : 
@@ -106,10 +110,11 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	
-func addChunk() -> FleshChunk : 
+func addChunk(moveDirection : Vector2) -> FleshChunk : 
 	var newChunkInstance: FleshChunk = fleshChunkScene.instantiate()
 	newChunkInstance.size_scale = scale_size * 0.5
 	newChunkInstance.isEdible = false
+	newChunkInstance.velocity = moveDirection * currentSpeed * dashCharge
 	get_tree().root.add_child(newChunkInstance)
 	newChunkInstance.startTimer()
 	return newChunkInstance
