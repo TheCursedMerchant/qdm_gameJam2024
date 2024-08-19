@@ -10,6 +10,7 @@ class_name WaterMissile
 var direction := Vector2.RIGHT
 var isActive := true
 var size_scale := Vector2.ONE
+var hitCallback : Callable
 
 func _ready() -> void:
 	updateScale(size_scale)
@@ -29,6 +30,7 @@ func reactivate() :
 
 func _on_area_entered(area: Area2D) -> void :
 	if(area.is_in_group("Enemy") && !area.isSplit) :
+		hitCallback.call()
 		area.take_damage()
 
 func updateScale(_scale : Vector2) :
