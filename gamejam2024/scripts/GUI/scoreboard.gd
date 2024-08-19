@@ -12,7 +12,7 @@ func _ready() -> void:
 	xpLabel.text = "Stomach : " + str(System.stomachSize) + "/" + str(System.stomachCapacity)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	fish_score = System.score
 	scoreLabel.text = "Score: " + str(fish_score)
 	xpLabel.text = "Stomach : " + str(System.stomachSize) + "/" + str(System.stomachCapacity)
