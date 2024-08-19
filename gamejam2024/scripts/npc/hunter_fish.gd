@@ -27,14 +27,18 @@ func fish_movement(delta):
 		global_position += direction * baseSpeed * delta
 	
 func _on_hunt_timer_timeout() -> void:
-	isHunting = true
+	var currentSize = sprite.get_rect().size * sprite.scale
+	var currentPlayerSize = player.sprite.get_rect().size * player.scale_size
+	if currentSize > currentPlayerSize:
+		isHunting = true
 	
 func _on_body_entered_hunter(body: Node2D):
 	if body.get_groups().has("Player"):
 		var player : Player = body
+		isHunting = false
+		huntingTimer.start()
 		if (!player.isRecovery):
 			#player.grow(-shrinkValue)
 			#player.take_damage()
-			isHunting = false
-			huntingTimer.start()
+			pass
 	
