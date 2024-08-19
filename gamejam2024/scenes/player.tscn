@@ -25,3 +25,7 @@ texture = ExtResource("3_ovqs6")
 [node name="Eating" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_kbpit")
 volume_db = 8.0
+
+[node name="DamageTimer" type="Timer" parent="."]
+
+[node name="HitStopTimer" type="Timer" parent="."]

@@ -18,6 +18,8 @@ func display_death():
 func _on_restart_pressed() -> void:
 	System.score = 0
 	System.player_level = 0
+	System.evolve_xp = 50
+	System.player_xp = 0
 	get_tree().change_scene_to_file("res://test.tscn")
 
 func _on_quit_pressed() -> void:
