@@ -14,6 +14,9 @@ var starting_position_range = randi_range(-250,0)
 @export var isActive := true
 @export var isHunterActive := false
 @export var spawnIndex : int
+@export var basicFishChance := .75
+@export var hunterFishChance := 0.1
+@export var pufferFishChance := 0.2
 
 @onready var spawn_timer := $Timer
 

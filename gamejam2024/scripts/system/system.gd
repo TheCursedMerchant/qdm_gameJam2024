@@ -19,7 +19,7 @@ var player_body : CharacterBody2D
 
 # Spawn Config
 var hunterCap = 1
-var pufferCap = 3
+var pufferCap = 2
 var activeHunters = 0
 var activePuffers = 0
 var difficultyModifier := 0.0
@@ -29,7 +29,7 @@ func canSpawnHunter() -> bool :
 	return (difficultyModifier > 5.0) and (activeHunters < hunterCap)
 	
 func canSpawnPuffer() -> bool : 
-	return (difficultyModifier > 3.0) and (activeHunters < hunterCap)
+	return (difficultyModifier > 3.0) and (activePuffers < hunterCap)
 
 func resetDisplayParams() : 
 	score = 0

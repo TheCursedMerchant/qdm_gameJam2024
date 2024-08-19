@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 func fish_movement(delta):
 	global_position += global_position.direction_to(player.global_position) * speed * delta
 	var player_distance = global_position.distance_to(player.global_position) # 200 seems to be a good distance
-	if player_distance <= 200.0001:
+	if player_distance <= 200.00:
 		attack()
 	
 func attack():

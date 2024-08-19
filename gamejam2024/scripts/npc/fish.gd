@@ -12,9 +12,7 @@ var foodPool := ScenePool.new(2)
 var isSplit := false
 var randomizeTexture := true
 
-
 func _ready() -> void :
-	experience = 10
 	if (randomizeTexture) : 
 		sprite.texture = GameRes.get_random_texture()
 		
@@ -26,9 +24,6 @@ func _ready() -> void :
 func _physics_process(delta: float) -> void :
 	if(isActive) : 
 		global_position += (direction * speed) * delta
-		
-	#sprite.scale.x = lerp(sprite.scale.x, size_scale.x, 0.2)
-	#sprite.scale.y = lerp(sprite.scale.y, size_scale.y, 0.2)
 		
 func reactivate() :
 	isActive = true
