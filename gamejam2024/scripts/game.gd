@@ -1,13 +1,14 @@
 extends Node2D
 
-@onready var player = $Player
-@onready var camera = $MainCamera
+@onready var player : Player = $Player
+@onready var camera : MainCamera = $MainCamera
 @onready var scoreboard = $CanvasLayer/Scoreboard
 @onready var death_screen = $CanvasLayer/Death
 
 func _ready() -> void:
 	player.connect("charge", camera.updateZoom)
 	player.connect("charge_release", camera.resetZoom)
+	player.connect("damage", camera.apply_shake)
 	player.connect("death", func():scoreboard.hide())
 	player.connect("death", death_screen.display_death)
 	

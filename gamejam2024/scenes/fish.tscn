@@ -16,3 +16,5 @@ texture = ExtResource("2_7365h")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 0.340552
 shape = SubResource("CircleShape2D_0sbyn")
+
+[node name="HitStopTimer" type="Timer" parent="."]
