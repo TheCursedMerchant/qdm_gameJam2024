@@ -5,16 +5,14 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5cd8h"]
 
-[node name="HunterFish" type="CharacterBody2D"]
+[node name="HunterFish" type="Area2D" groups=["Enemy"]]
 script = ExtResource("1_6m0ao")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ly0t5")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5cd8h")
 
 [node name="HuntTimer" type="Timer" parent="."]
 wait_time = 3.0
-
-[connection signal="timeout" from="HuntTimer" to="." method="_on_hunt_timer_timeout"]
