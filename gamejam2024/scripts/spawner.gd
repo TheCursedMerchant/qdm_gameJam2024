@@ -5,7 +5,7 @@ var fish_scene = preload("res://scenes/fish.tscn")
 var hunter_scene = preload("res://scenes/hunter_fish.tscn")
 var puffer_scene = preload("res://scenes/puffer_fish.tscn")
 
-var fish_scenes : Array = [fish_scene, hunter_scene]
+var fish_scenes : Array = [fish_scene, hunter_scene, puffer_scene]
 var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
@@ -19,8 +19,9 @@ var starting_position_range = randi_range(-250,0)
 
 var basicFishPool : ScenePool = ScenePool.new(3)
 var hunterFishPool : ScenePool = ScenePool.new(3)
+var pufferFishPool : ScenePool = ScenePool.new(3)
 
-var spawnPools : Array = [basicFishPool, hunterFishPool]
+var spawnPools : Array = [basicFishPool, hunterFishPool, pufferFishPool]
 
 func _process(_delta: float) -> void:
 	if initial_start && isActive:
@@ -78,6 +79,8 @@ func getRandomFishIndex() -> int :
 	
 	if (index == 1 && System.canSpawnHunter()) : 
 		System.activeHunters += 1
+	elif(index == 2 && System.canSpawnPuffer()) : 
+		System.activePuffers += 1
 	else : 
 		index = 0
 		

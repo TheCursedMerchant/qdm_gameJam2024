@@ -14,11 +14,14 @@ func _physics_process(delta: float) -> void:
 
 # The movement of the fish.
 func fish_movement(delta):
-	speed = 100
-	global_position += position.direction_to(player.position) * speed * delta
-	var player_distance = position.distance_to(player.position) # 200 seems to be a good distance
+	global_position += global_position.direction_to(player.global_position) * speed * delta
+	var player_distance = global_position.distance_to(player.global_position) # 200 seems to be a good distance
 	if player_distance <= 200.0001:
 		attack()
 	
 func attack():
 	print("I attack.")
+	
+func deactivate() : 
+	super.deactivate()
+	System.activePuffers -= 1

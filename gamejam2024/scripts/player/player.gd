@@ -79,14 +79,6 @@ func _physics_process(delta: float) -> void:
 				else :
 					emit_signal("damage")
 					
-			#elif(Input.is_action_just_pressed("right_click")) :
-				#if(isFull()) :
-					#System.stomachSize = 0
-					#System.stomachCapacity += 1
-					#scaleTo(minScale) 
-				#else : 
-					#emit_signal("damage")
-					
 			if h_direction:
 				if h_direction > 0 : 
 					sprite.flip_h = false
