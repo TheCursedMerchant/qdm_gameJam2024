@@ -1,15 +1,12 @@
 class_name Hunter
-extends "res://scripts/food/food.gd"
+extends "res://scripts/npc/fish.gd"
 
-@export var direction := Vector2.RIGHT
-@export var baseSpeed = 300
-@export var shrinkValue = 0.05
+@export var huntingSpeed = 300
 
 @onready var huntingTimer:= $HuntTimer
 
 # The fish does not immediately start hunting the player.
 var isHunting := false
-var isSplit := false
 var player: CharacterBody2D
 
 func _ready() -> void:
@@ -23,10 +20,9 @@ func _physics_process(delta: float) -> void:
 
 func fish_movement(delta):
 	if isHunting:
-		global_position += position.direction_to(player.position) * baseSpeed * delta
+		global_position += position.direction_to(player.position) * huntingSpeed * delta
 	else:
-		global_position += direction * baseSpeed * delta
-	
+		global_position += direction * speed * delta
 func _on_hunt_timer_timeout() -> void:
 	var currentSize = sprite.get_rect().size * sprite.scale
 	var currentPlayerSize = player.sprite.get_rect().size * player.scale_size
@@ -36,12 +32,9 @@ func _on_hunt_timer_timeout() -> void:
 func _on_body_entered_hunter(body: Node2D):
 	if body.get_groups().has("Player"):
 		var player : Player = body
-		isHunting = false
-		huntingTimer.start()
 		if (!player.isRecovery):
-			player.grow(-shrinkValue)
-			player.take_damage()
-			pass
+			isHunting = false
+			huntingTimer.start()
 			
 func take_damage() :
 	deactivate() 

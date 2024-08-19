@@ -2,12 +2,15 @@ class_name Spawner
 extends Node2D
 
 var fish_scene = preload("res://scenes/fish.tscn")
+var hunter_scene = preload("res://scenes/hunter_fish.tscn")
 var starting_position_range = randi_range(-250,0)
 
 @export var initial_start := true
 @export var fish_direction = Vector2.RIGHT
 @export var spawnSide = Vector2.RIGHT
 @export var isActive := true
+@export var isHunterActive := false
+@export var spawnIndex : int
 
 @onready var spawn_timer := $Timer
 
@@ -64,3 +67,4 @@ func spawn_fish() -> Fish:
 		
 	return new_fish
 	
+# If timer > n isHunting = active
