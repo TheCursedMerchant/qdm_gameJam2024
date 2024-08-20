@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
 [ext_resource type="AudioStream" uid="uid://djvogs81a54v0" path="res://audio/background.wav" id="8_uvb2m"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
-[ext_resource type="PackedScene" uid="uid://b5yn58nsyoxxl" path="res://scenes/puffer_fish.tscn" id="10_4er66"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
