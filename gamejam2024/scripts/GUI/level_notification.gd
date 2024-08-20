@@ -46,3 +46,8 @@ func notifyLevel():
 			levelmessage.text = 'Birdsoul!'
 			notificationtimer.start(1)
 			self.visible = true
+
+func on_death():
+	if notificationActive:
+		notificationtimer.emit_signal("timeout")
+	pass

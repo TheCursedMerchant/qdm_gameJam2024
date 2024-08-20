@@ -18,12 +18,12 @@ script = ExtResource("1_3yksk")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Death" parent="CanvasLayer" instance=ExtResource("7_ib807")]
-top_level = true
-
 [node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("5_qsoqg")]
 
 [node name="LevelNotification" parent="CanvasLayer" instance=ExtResource("4_5fa71")]
+
+[node name="Death" parent="CanvasLayer" instance=ExtResource("7_ib807")]
+top_level = true
 
 [node name="Player" parent="." instance=ExtResource("1_okob1")]
 position = Vector2(584, 371)

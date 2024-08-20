@@ -19,8 +19,9 @@ func _ready() -> void:
 	player.connect("charge_release", camera.resetZoom)
 	player.connect("damage", camera.apply_shake)
 	player.connect("death", func():scoreboard.hide())
-	player.connect("death", func():notifications.hide())
 	player.connect("death", death_screen.display_death)
+	player.connect("death", notifications.on_death)
+	player.connect("death", func():difficultyTimer.stop())
 	
 	#Timer
 	difficultyTimer.connect("timeout", on_difficulty_timeout)
