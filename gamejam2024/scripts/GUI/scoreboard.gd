@@ -15,5 +15,3 @@ func _process(_delta: float) -> void:
 	fish_score = System.score
 	scoreLabel.text = "Score: " + str(fish_score)
 	stomachLabel.text = "Stomach : " + str(System.stomachSize) + "/" + str(System.stomachCapacity)
-	
-	

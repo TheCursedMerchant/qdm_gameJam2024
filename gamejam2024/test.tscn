@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://br0cvu74yhcoh" path="res://scenes/scoreboard.tscn" id="5_qsoqg"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="6_lk2y2"]
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
-[ext_resource type="AudioStream" uid="uid://djvogs81a54v0" path="res://audio/background.wav" id="8_uvb2m"]
+[ext_resource type="AudioStream" uid="uid://cylyktbbw22b1" path="res://audio/ProfessionalSoundEditMix1.wav" id="8_0wikr"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 
 [node name="Game" type="Node2D"]
@@ -69,7 +69,7 @@ script = ExtResource("6_lk2y2")
 [node name="Death" parent="CanvasLayer" instance=ExtResource("7_ib807")]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_uvb2m")
+stream = ExtResource("8_0wikr")
 volume_db = -20.0
 autoplay = true
 script = ExtResource("9_3l5fu")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://57xqcnuloud2"]
+[gd_scene load_steps=4 format=3 uid="uid://d0jjinwybjamq"]
 
 [ext_resource type="Script" path="res://scripts/npc/puffer_fish_stinger.gd" id="1_3nn45"]
 [ext_resource type="Texture2D" uid="uid://cucdca377kcuv" path="res://assets/art/puffer_stinger.png" id="1_hpsix"]
@@ -10,6 +10,7 @@ size = Vector2(30.75, 6.5)
 script = ExtResource("1_3nn45")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = ExtResource("1_hpsix")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -18,4 +19,4 @@ shape = SubResource("RectangleShape2D_xmjiw")
 
 [node name="LifespanTimer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
