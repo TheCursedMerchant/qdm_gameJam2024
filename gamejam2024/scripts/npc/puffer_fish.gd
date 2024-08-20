@@ -15,13 +15,12 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	fish_movement(delta)
 	
-
 # The movement of the fish.
 func fish_movement(delta):
 	speed = 100
 	global_position += position.direction_to(player.position) * speed * delta
 	var player_distance = position.distance_to(player.position) # 200 seems to be a good distance
-	if player_distance <= 200.0001:
+	if player_distance <= 400.0001:
 		attack()
 
 func addPufferStinger(moveDirection: Vector2) -> PufferStinger:
@@ -35,13 +34,14 @@ func addPufferStinger(moveDirection: Vector2) -> PufferStinger:
 func reactivatePufferStinger(moveDirection: Vector2):
 	var attackStinger = stingerPool.getLastScene()
 	attackStinger.direction = moveDirection
-	attackStinger.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
-	attackStinger.getLastScene().isActive = true
-	attackStinger.getLastScene().updateScale(size_scale)
+	attackStinger.rotation = Vector2.RIGHT.angle_to(moveDirection)
+	attackStinger.isActive = true
+	attackStinger.updateScale(size_scale)
 	
 func attack():
-	var target_direction = position.direction_to(player.position)
-	stingerPool.addAtPosition(global_position,
-		func(): return addPufferStinger(target_direction),
-		func(): reactivatePufferStinger(target_direction))
-	print("I attack.")
+	var cardinal_direction = [Vector2.UP, Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT]
+	#var target_direction = position.direction_to(player.position)
+	for target_direction in cardinal_direction:
+		stingerPool.addAtPosition(global_position,
+			func(): return addPufferStinger(target_direction),
+			func(): reactivatePufferStinger(target_direction))
