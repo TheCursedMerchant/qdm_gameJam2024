@@ -8,6 +8,7 @@ radius = 32.0
 
 [node name="Fish" type="Area2D" groups=["Enemy"]]
 script = ExtResource("1_ltvon")
+speed = 400.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

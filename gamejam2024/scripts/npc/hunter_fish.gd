@@ -35,7 +35,6 @@ func fish_movement(delta):
 		isHunting = true
 		
 	if isHunting && canHunt:
-		print("Hunting!")
 		sprite.texture = aggroTexture
 		sprite.flip_h = moveDirection.x < 0
 		global_position += moveDirection * huntingSpeed * delta

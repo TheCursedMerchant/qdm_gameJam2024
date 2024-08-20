@@ -20,9 +20,9 @@ var starting_position_range = randi_range(-250,0)
 
 @onready var spawn_timer := $Timer
 
-var basicFishPool : ScenePool = ScenePool.new(3)
-var hunterFishPool : ScenePool = ScenePool.new(3)
-var pufferFishPool : ScenePool = ScenePool.new(3)
+var basicFishPool : ScenePool = ScenePool.new(8)
+var hunterFishPool : ScenePool = ScenePool.new(8)
+var pufferFishPool : ScenePool = ScenePool.new(8)
 
 var spawnPools : Array = [basicFishPool, hunterFishPool, pufferFishPool]
 

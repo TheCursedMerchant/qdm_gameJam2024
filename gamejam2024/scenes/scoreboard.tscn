@@ -22,7 +22,7 @@ theme_override_constants/margin_top = 16
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 700
+theme_override_constants/separation = 600
 
 [node name="StomachSize" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -33,3 +33,8 @@ text = "Xp : 0/50"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
+
+[node name="DangerLevel" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Danger Level : "

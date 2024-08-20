@@ -6,6 +6,7 @@ extends "res://scripts/food/food.gd"
 @export_category("Movement")
 @export var speed : float = 850.0
 @export var direction := Vector2.RIGHT
+@export var maxSpeed : float = 3000
 
 var childrenFishScene := preload("res://scenes/food.tscn")
 var foodPool := ScenePool.new(2)
@@ -60,5 +61,5 @@ func on_squish_timeout() :
 	deactivate()
 	
 func updateSpeed(): 
-	speed *= 1 + (System.difficultyModifier / 100)
+	speed = min(speed * 1 + (System.difficultyModifier / 100), maxSpeed)
 	

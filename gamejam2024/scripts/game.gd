@@ -5,6 +5,10 @@ extends Node2D
 @onready var scoreboard = $CanvasLayer/Scoreboard
 @onready var death_screen = $CanvasLayer/Death
 @onready var difficultyTimer = $DifficultyTimer
+@onready var spawnGroup1 : SpawnGroup = $SpawnGroup_L1
+@onready var spawnGroup2 : SpawnGroup = $SpawnGroup_L2
+@onready var spawnGroup3 : SpawnGroup = $SpawnGroup_L3
+
 
 func _ready() -> void:
 	# Player 
@@ -18,6 +22,7 @@ func _ready() -> void:
 	difficultyTimer.connect("timeout", on_difficulty_timeout)
 	difficultyTimer.start(System.difficultyPeriod)
 	
+	spawnGroup1.activateGroup()
 	
 func _process(_delta) -> void : 
 	if(Input.is_action_just_pressed("ui_cancel")) : 
@@ -29,6 +34,24 @@ func _process(_delta) -> void :
 		
 func on_difficulty_timeout() : 
 	System.difficultyModifier += 1.0
+	
 	print("Current difficulty level : ", System.difficultyModifier)
+	
+	if(System.difficultyModifier >= 10) : 
+		print("Incoming Group 2!")
+		spawnGroup2.activateGroup()
+		
+	if(System.difficultyModifier >= 20) :
+		print("Hunters added!") 
+		System.hunterCap = 1
+		
+	if(System.difficultyModifier >= 20) :
+		print("Puffers added!") 
+		System.pufferCap = 2
+	
+	if(System.difficultyModifier >= 50) : 
+		print("Incoming Group 3!")
+		spawnGroup3.activateGroup()
+		
 	difficultyTimer.start(System.difficultyPeriod)
 	get_tree().call_group_flags(2, 'Enemy', 'updateSpeed')
