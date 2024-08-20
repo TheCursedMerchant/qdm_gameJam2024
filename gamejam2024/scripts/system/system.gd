@@ -26,10 +26,10 @@ var difficultyModifier := 0.0
 var difficultyPeriod := 10.0
 
 func canSpawnHunter() -> bool : 
-	return (difficultyModifier > 5.0) and (activeHunters < hunterCap)
+	return (difficultyModifier > 3.0) and (activeHunters < hunterCap)
 	
 func canSpawnPuffer() -> bool : 
-	return (difficultyModifier > 3.0) and (activePuffers < hunterCap)
+	return (difficultyModifier > 5.0) and (activePuffers < hunterCap)
 
 func resetDisplayParams() : 
 	score = 0

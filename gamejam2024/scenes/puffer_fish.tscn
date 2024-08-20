@@ -20,3 +20,5 @@ shape = SubResource("RectangleShape2D_nctmb")
 [node name="HitStopTimer" type="Timer" parent="."]
 
 [node name="SquishTimer" type="Timer" parent="."]
+
+[node name="CooldownTimer" type="Timer" parent="."]

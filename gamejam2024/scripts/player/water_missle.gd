@@ -6,7 +6,6 @@ class_name WaterMissile
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 
 @export var speed := 1000.00
-
 var direction := Vector2.RIGHT
 var isActive := true
 var size_scale := Vector2.ONE
