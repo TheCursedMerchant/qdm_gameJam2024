@@ -205,13 +205,19 @@ func take_damage() :
 			fleshChunkPool.getLastScene().isEdible = false
 			fleshChunkPool.getLastScene().velocity = pointDirection * spitForce
 			fleshChunkPool.getLastScene().startTimer()
-		for i in System.stomachSize : 
-				fleshChunkPool.call_deferred("addAtPosition",
-					global_position + (pointDirection), 
-					func() : return addChunk(pointDirection), 
-					callback)
+			
+		fleshChunkPool.call_deferred("addAtPosition",
+			global_position + (pointDirection), 
+			func() : return addChunk(pointDirection), 
+			callback)
+			
+		if(System.stomachSize > 1) : 
+			fleshChunkPool.call_deferred("addAtPosition",
+			global_position + (pointDirection), 
+			func() : return addChunk(pointDirection), 
+			callback)
 	
-		System.stomachSize = 0
+		System.stomachSize = max(System.stomachSize - 2, 0)
 	elif(playerState != System.PLAYER_STATES.DEAD)  : 
 		youDie.play()
 		playerState = System.PLAYER_STATES.DEAD
@@ -227,7 +233,6 @@ func eat(growth_value : float):
 	else : 
 		System.stomachSize += 1
 		if (isFull()) : 
-			print("Time to digest!")
 			digestTimer.start(digestTime)
 	
 		
