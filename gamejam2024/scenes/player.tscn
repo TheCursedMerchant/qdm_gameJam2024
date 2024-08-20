@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjo41ejls2sqx"]
+[gd_scene load_steps=10 format=3 uid="uid://bjo41ejls2sqx"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_a5vru"]
 [ext_resource type="Texture2D" uid="uid://brcrfk5hmp4vd" path="res://assets/art/player_fish.png" id="2_273r6"]
 [ext_resource type="Texture2D" uid="uid://bdwpxw7hns7p6" path="res://assets/art/spr_direction_arrow.png" id="3_ovqs6"]
-[ext_resource type="AudioStream" uid="uid://c00tktt3y0e2d" path="res://audio/nomshort.wav" id="4_kbpit"]
+[ext_resource type="AudioStream" uid="uid://taohu2khwjws" path="res://audio/crunchsound.wav" id="4_s8aqr"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="5_hf6m6"]
 [ext_resource type="AudioStream" uid="uid://ctfcef38wyf4r" path="res://audio/playerattack.wav" id="6_koacn"]
 [ext_resource type="AudioStream" uid="uid://dpgkmdsprq8dj" path="res://audio/Hit_Hurt9.wav" id="7_ot2d8"]
+[ext_resource type="AudioStream" uid="uid://m8mkoukexd80" path="res://audio/Swallow.wav" id="8_lcnen"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8d8ug"]
 radius = 32.0
@@ -26,7 +27,7 @@ texture_filter = 1
 texture = ExtResource("3_ovqs6")
 
 [node name="Eating" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_kbpit")
+stream = ExtResource("4_s8aqr")
 volume_db = 5.0
 script = ExtResource("5_hf6m6")
 maxDb = 5
@@ -46,3 +47,6 @@ script = ExtResource("5_hf6m6")
 maxDb = 0
 
 [node name="DigestTimer" type="Timer" parent="."]
+
+[node name="Swallowfish" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_lcnen")

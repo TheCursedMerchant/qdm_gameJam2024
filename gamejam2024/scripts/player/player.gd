@@ -23,6 +23,7 @@ extends CharacterBody2D
 @onready var damagesfx = $PlayerHit
 @onready var attack = $PlayerAttack
 @onready var digestTimer : Timer = $DigestTimer
+@onready var swallow = $Swallowfish
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var fleshChunkPool := ScenePool.new(10)
@@ -61,6 +62,7 @@ func on_recovery_finished() :
 
 func on_digest_timeout() :
 	if(isFull()) : 
+		swallow.play()
 		System.stomachSize = 0
 		System.stomachCapacity += 1
 		scaleTo(minScale)
