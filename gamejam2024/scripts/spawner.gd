@@ -16,12 +16,14 @@ var starting_position_range = randi_range(-250,0)
 @export var spawnIndex : int
 @export var hunterFishChance := 0.2
 @export var pufferFishChance := 0.1
+@export var hunterCooldown := 2.0
+@export var pufferCooldown := 2.0
 
 @onready var spawn_timer := $Timer
 
 var basicFishPool : ScenePool = ScenePool.new(8)
-var hunterFishPool : ScenePool = ScenePool.new(8)
-var pufferFishPool : ScenePool = ScenePool.new(8)
+var hunterFishPool : ScenePool = ScenePool.new(2)
+var pufferFishPool : ScenePool = ScenePool.new(2)
 
 var spawnPools : Array = [basicFishPool, hunterFishPool, pufferFishPool]
 
@@ -82,9 +84,11 @@ func getRandomFishIndex() -> int :
 	var roll = randf_range(0, 1)
 	var index = 0
 	
-	if(System.canSpawnPuffer() && roll <= pufferFishChance) : 
+	if(System.canSpawnPuffer() && roll <= pufferFishChance) :
+		System.activePuffers += 1
 		index = 2
 	elif(System.canSpawnHunter() && roll <= hunterFishChance) : 
+		System.activeHunters += 1
 		index = 1
 		
 	return index

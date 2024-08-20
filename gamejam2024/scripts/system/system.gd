@@ -26,23 +26,24 @@ var difficultyModifier := 0.0
 var difficultyPeriod := 10.0
 
 func canSpawnHunter() -> bool : 
-	return (difficultyModifier > 3.0) and (activeHunters < hunterCap)
+	return activeHunters < hunterCap
 	
 func canSpawnPuffer() -> bool : 
-	return (difficultyModifier > 5.0) and (activePuffers < pufferCap)
+	return activePuffers < pufferCap
 
 func resetDisplayParams() : 
 	score = 0
 	stomachSize = 0
 	activeHunters = 0
 	activePuffers = 0
-	difficultyModifier = 0
-	stomachCapacity = 1
 	hunterCap = 0
 	pufferCap = 0
+	difficultyModifier = 0
+	stomachCapacity = 1
 
 func getRemainingXp() -> int : 
 	return evolve_xp - player_xp
+	
 	
 const HIT_SHAKE_DURATION := 0.5
 const HIT_SHAKE_FREQUENCY := 6.0
