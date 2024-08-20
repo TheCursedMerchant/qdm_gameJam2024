@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b8p7jqgs2jukf"]
+[gd_scene load_steps=13 format=3 uid="uid://b8p7jqgs2jukf"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_3yksk"]
 [ext_resource type="PackedScene" uid="uid://bjo41ejls2sqx" path="res://scenes/player.tscn" id="1_okob1"]
@@ -11,16 +11,17 @@
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 [ext_resource type="Script" path="res://spawn_group.gd" id="9_ovaps"]
-[ext_resource type="PackedScene" uid="uid://d3mfuite4p7bt" path="res://scenes/bubble.tscn" id="11_iovbq"]
+[ext_resource type="PackedScene" path="res://scenes/bubble.tscn" id="11_iovbq"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("5_qsoqg")]
-
 [node name="Death" parent="CanvasLayer" instance=ExtResource("7_ib807")]
+top_level = true
+
+[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("5_qsoqg")]
 
 [node name="LevelNotification" parent="CanvasLayer" instance=ExtResource("4_5fa71")]
 

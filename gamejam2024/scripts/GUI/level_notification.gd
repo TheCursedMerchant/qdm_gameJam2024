@@ -24,25 +24,25 @@ func notifyLevel():
 	if notificationActive:
 		if System.difficultyModifier == 8:
 			levelmessage.text = 'The Second Wave is Coming!'
-			notificationtimer.start(3)
+			notificationtimer.start(1)
 			self.visible = true
 			
 		elif System.difficultyModifier == 10:
 			levelmessage.text = 'Let the Hunt Begin!'
-			notificationtimer.start(3)
+			notificationtimer.start(1)
 			self.visible = true
 			
 		elif System.difficultyModifier == 15:
 			levelmessage.text = 'Prickly!'
-			notificationtimer.start(3)
+			notificationtimer.start(1)
 			self.visible = true
 			
 		elif System.difficultyModifier == 20:
 			levelmessage.text = 'The Calvary is here!'
-			notificationtimer.start(3)
+			notificationtimer.start(1)
 			self.visible = true
 			
 		elif System.difficultyModifier == 35:
 			levelmessage.text = 'Birdsoul!'
-			notificationtimer.start(3)
+			notificationtimer.start(1)
 			self.visible = true

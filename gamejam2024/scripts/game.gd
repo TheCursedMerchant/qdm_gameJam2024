@@ -41,23 +41,23 @@ func on_difficulty_timeout() :
 	System.difficultyModifier += 1.0
 	
 
-	if(System.difficultyModifier >= 8) : 
+	if(System.difficultyModifier == 8) : 
 		spawnGroup2.activateGroup()
 		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 10) :
+	if(System.difficultyModifier == 10) :
 		System.hunterCap = 1
 		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 15) :
+	if(System.difficultyModifier == 15) :
 		System.pufferCap = 2
 		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 20) : 
+	if(System.difficultyModifier == 20) : 
 		spawnGroup3.activateGroup()
 		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 35) : 
+	if(System.difficultyModifier == 35) : 
 		spawnGroup4.activateGroup()
 		emit_signal("levelup")
 		
