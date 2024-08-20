@@ -40,30 +40,24 @@ func _process(_delta) -> void :
 func on_difficulty_timeout() : 
 	System.difficultyModifier += 1.0
 	
-	print("Current difficulty level : ", System.difficultyModifier)
-	
-	if(System.difficultyModifier == 8) : 
-		print("Incoming Group 2!")
+
+	if(System.difficultyModifier >= 8) : 
 		spawnGroup2.activateGroup()
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier >= 10) :
-		print("Hunters added!") 
 		System.hunterCap = 1
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier >= 15) :
-		print("Puffers added!") 
 		System.pufferCap = 2
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier >= 20) : 
-		print("Incoming Group 3!")
 		spawnGroup3.activateGroup()
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier >= 35) : 
-		print("Incoming Group 4!")
 		spawnGroup4.activateGroup()
 		emit_signal("levelup")
 		

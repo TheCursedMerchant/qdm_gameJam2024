@@ -76,7 +76,6 @@ func _process(delta: float) -> void:
 		digestionBar.show()
 		digestionBar.value = (digestTimer.time_left / digestTime) * 100
 
-	
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
 	var v_direction := Input.get_axis("ui_up", "ui_down")
@@ -191,7 +190,6 @@ func scaleTo(_scale: Vector2) -> void:
 	arrow_sprite.scale = scale_size
 	sprite.scale += Vector2(-0.6 , 0.75)
 
-
 func take_damage() :
 	emit_signal("damage")
 	sprite.self_modulate.a = 0.3
@@ -205,13 +203,19 @@ func take_damage() :
 			fleshChunkPool.getLastScene().isEdible = false
 			fleshChunkPool.getLastScene().velocity = pointDirection * spitForce
 			fleshChunkPool.getLastScene().startTimer()
-		for i in System.stomachSize : 
-				fleshChunkPool.call_deferred("addAtPosition",
-					global_position + (pointDirection), 
-					func() : return addChunk(pointDirection), 
-					callback)
+			
+		fleshChunkPool.call_deferred("addAtPosition",
+			global_position + (pointDirection), 
+			func() : return addChunk(pointDirection), 
+			callback)
+			
+		if(System.stomachSize > 1) : 
+			fleshChunkPool.call_deferred("addAtPosition",
+			global_position + (pointDirection), 
+			func() : return addChunk(pointDirection), 
+			callback)
 	
-		System.stomachSize = 0
+		System.stomachSize = max(System.stomachSize - 2, 0)
 	elif(playerState != System.PLAYER_STATES.DEAD)  : 
 		youDie.play()
 		playerState = System.PLAYER_STATES.DEAD
@@ -227,7 +231,6 @@ func eat(growth_value : float):
 	else : 
 		System.stomachSize += 1
 		if (isFull()) : 
-			print("Time to digest!")
 			digestTimer.start(digestTime)
 	
 		
