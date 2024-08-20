@@ -23,7 +23,7 @@ var pufferCap = 2
 var activeHunters = 0
 var activePuffers = 0
 var difficultyModifier := 0.0
-var difficultyPeriod := 10.0
+var difficultyPeriod := 1.0
 
 func canSpawnHunter() -> bool : 
 	return (difficultyModifier > 3.0) and (activeHunters < hunterCap)
