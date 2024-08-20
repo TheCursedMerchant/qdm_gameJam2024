@@ -33,15 +33,22 @@ size_flags_vertical = 4
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "To play the game, use W, A, S, and D to move your character.
-Larger fish will hurt and eventually kill you, avoid them at all costs while eating as many small fish as you can to grow larger. 
-When your stomach is full of fish, give yourself a moment to level up.
-When you've leveled up enough, you can fight back with a powerful attack using the left click. 
-Avoid the Hunters and Pufferfish, they're extremely dangerous! Good Luck!"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+text = "Welcome to our game jam submission!  \"Calming Fish Game\"
+
+1. Move your fish with the W, A, S, and D keys.
+2. Grow larger by eating smaller fish, and store food in your stomach. Careful, attempting to eat an additional
+fish at full capacity will make you puke.
+3. Larger fish will try to eat you, if you have food in your stomach you will puke, giving you time 
+to escape.
+4. At max capacity, wait to digest your food to increase your stomach capacity.
+5. When your stomach capacity is a 2, press left click to fire a water wave. Each water wave uses 2 food.
+6. Becareful of hunters and Pufferfish, they're extremely dangerous! Good Luck!
+
+Thanks for playing our game!"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "back"
+text = "Back"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
