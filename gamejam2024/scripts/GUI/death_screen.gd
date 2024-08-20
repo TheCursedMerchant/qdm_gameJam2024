@@ -13,6 +13,9 @@ func display_death():
 	self.visible = true
 	messages.text = 'You have been eaten.'
 	final_score.text = "Final Score: " + str(System.score)
+	
+func _on_start_screen_pressed() -> void:
+	get_tree().change_scene_to_file('res://menu.tscn')
 
 func _on_restart_pressed() -> void:
 	System.resetDisplayParams()
