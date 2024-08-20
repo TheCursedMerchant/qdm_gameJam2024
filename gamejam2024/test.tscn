@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 [ext_resource type="Script" path="res://spawn_group.gd" id="9_ovaps"]
-[ext_resource type="PackedScene" uid="uid://d3mfuite4p7bt" path="res://scenes/bubble.tscn" id="11_iovbq"]
+[ext_resource type="PackedScene" path="res://scenes/bubble.tscn" id="11_iovbq"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
