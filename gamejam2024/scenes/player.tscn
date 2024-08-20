@@ -44,4 +44,5 @@ maxDb = 0
 stream = ExtResource("7_ot2d8")
 script = ExtResource("5_hf6m6")
 maxDb = 0
+
 [node name="DigestTimer" type="Timer" parent="."]

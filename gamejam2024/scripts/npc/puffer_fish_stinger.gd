@@ -1,11 +1,11 @@
 extends Area2D
-class_name puffer_stinger
+class_name PufferStinger
 
 @onready var lifespan = $LifespanTimer
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 
-@export var projectile_speed = 10000.00
+@export var projectile_speed = 100.00
 var direction := Vector2.RIGHT
 var isActive := true
 var size_scale := Vector2.ONE
