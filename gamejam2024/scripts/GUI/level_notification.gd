@@ -22,7 +22,7 @@ func _on_notification_timer_timeout() -> void:
 
 func notifyLevel():
 	if notificationActive:
-		if System.difficultyModifier == 8:
+		if System.difficultyModifier == 6:
 			levelmessage.text = 'The Second Wave is Coming!'
 			notificationtimer.start(0.25)
 			self.visible = true
