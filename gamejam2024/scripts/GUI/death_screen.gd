@@ -15,6 +15,7 @@ func display_death():
 
 func _on_restart_pressed() -> void:
 	System.resetDisplayParams()
+	Engine.time_scale = 1.0
 	get_tree().change_scene_to_file("res://test.tscn")
 
 func _on_quit_pressed() -> void:

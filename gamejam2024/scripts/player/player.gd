@@ -25,6 +25,7 @@ extends CharacterBody2D
 @onready var digestTimer : Timer = $DigestTimer
 @onready var swallow = $Swallowfish
 @onready var youDie = $PlayerDies
+@onready var digestionBar = $Ui/ProgressBar
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var fleshChunkPool := ScenePool.new(10)
@@ -67,6 +68,14 @@ func on_digest_timeout() :
 		System.stomachSize = 0
 		System.stomachCapacity += 1
 		scaleTo(minScale)
+		
+func _process(delta: float) -> void:
+	if(digestTimer.is_stopped()) : 
+		digestionBar.hide()
+	else : 
+		digestionBar.show()
+		digestionBar.value = (digestTimer.time_left / digestTime) * 100
+
 	
 func _physics_process(delta: float) -> void:
 	var h_direction := Input.get_axis("ui_left", "ui_right")
@@ -124,6 +133,7 @@ func _physics_process(delta: float) -> void:
 			playerState = System.PLAYER_STATES.IDLE
 			
 		System.PLAYER_STATES.DEAD :
+			Engine.time_scale = 1.0
 			sprite.flip_v = true 
 			velocity.y = - 100
 			
@@ -217,6 +227,7 @@ func eat(growth_value : float):
 	else : 
 		System.stomachSize += 1
 		if (isFull()) : 
+			print("Time to digest!")
 			digestTimer.start(digestTime)
 	
 		
