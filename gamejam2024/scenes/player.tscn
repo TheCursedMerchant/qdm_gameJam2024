@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjo41ejls2sqx"]
+[gd_scene load_steps=11 format=3 uid="uid://bjo41ejls2sqx"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_a5vru"]
 [ext_resource type="Texture2D" uid="uid://brcrfk5hmp4vd" path="res://assets/art/player_fish.png" id="2_273r6"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://ctfcef38wyf4r" path="res://audio/playerattack.wav" id="6_koacn"]
 [ext_resource type="AudioStream" uid="uid://dpgkmdsprq8dj" path="res://audio/Hit_Hurt9.wav" id="7_ot2d8"]
 [ext_resource type="AudioStream" uid="uid://m8mkoukexd80" path="res://audio/Swallow.wav" id="8_lcnen"]
+[ext_resource type="AudioStream" uid="uid://cbnoxb667jl6w" path="res://audio/death sound.wav" id="9_ypctg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8d8ug"]
 radius = 32.0
@@ -52,3 +53,7 @@ maxDb = 0
 stream = ExtResource("8_lcnen")
 script = ExtResource("5_hf6m6")
 maxDb = -10
+
+[node name="PlayerDies" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_ypctg")
+script = ExtResource("5_hf6m6")

@@ -29,11 +29,11 @@ func reactivate():
 	isActive = true
 	lifespan.start(2)
 
-func _on_area_entered(character: CharacterBody2D) -> void :
-	if(character.is_in_group("Player")) :
-		character.take_damage()
-		
 func updateScale(_scale : Vector2) :
 	size_scale = _scale * 2
 	sprite.scale = size_scale
 	collisionShape.scale = size_scale
+
+func _on_body_entered(body: Node2D) -> void:
+	if(body.is_in_group("Player")) :
+		body.take_damage()
