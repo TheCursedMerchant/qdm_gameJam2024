@@ -7,6 +7,7 @@ func _ready() -> void:
 	self.visible = false
 
 func display_death():
+	Engine.time_scale = 1.0
 	get_tree().call_group('Food', 'deactivate')
 	get_tree().call_group('Enemy', 'deactivate')
 	get_tree().call_group('Spawner','deactivate')
@@ -15,11 +16,11 @@ func display_death():
 	final_score.text = "Final Score: " + str(System.score * System.stomachCapacity) 
 	
 func _on_start_screen_pressed() -> void:
+	System.resetDisplayParams()
 	get_tree().change_scene_to_file('res://menu.tscn')
 
 func _on_restart_pressed() -> void:
 	System.resetDisplayParams()
-	Engine.time_scale = 1.0
 	get_tree().change_scene_to_file("res://test.tscn")
 
 func _on_quit_pressed() -> void:
