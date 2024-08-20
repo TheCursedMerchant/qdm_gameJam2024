@@ -33,10 +33,15 @@ text = "Play"
 layout_mode = 2
 text = "Settings"
 
+[node name="Instructions" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Instructions"
+
 [node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Instructions" to="." method="_on_instructions_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_options_2_pressed"]
