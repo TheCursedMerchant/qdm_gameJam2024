@@ -203,10 +203,11 @@ func take_damage() :
 					callback)
 	
 		System.stomachSize = 0
-	else :  
+	elif(playerState != System.PLAYER_STATES.DEAD)  : 
+		youDie.play()
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
-		youDie.play()
+		
 
 func eat(growth_value : float): 
 	emit_signal("damage")
