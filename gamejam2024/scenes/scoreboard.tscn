@@ -24,7 +24,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 700
 
-[node name="Exp" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="StomachSize" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Xp : 0/50"

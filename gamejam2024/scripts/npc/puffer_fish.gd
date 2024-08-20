@@ -15,7 +15,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	fish_movement(delta)
 	
-
 # The movement of the fish.
 func fish_movement(delta):
 	var moveDirection = global_position.direction_to(player.global_position)
