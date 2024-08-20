@@ -8,6 +8,7 @@ extends Node2D
 @onready var spawnGroup1 : SpawnGroup = $SpawnGroup_L1
 @onready var spawnGroup2 : SpawnGroup = $SpawnGroup_L2
 @onready var spawnGroup3 : SpawnGroup = $SpawnGroup_L3
+@onready var spawnGroup4 : SpawnGroup = $SpawnGroup_L4
 
 
 func _ready() -> void:
@@ -45,13 +46,17 @@ func on_difficulty_timeout() :
 		print("Hunters added!") 
 		System.hunterCap = 1
 		
-	if(System.difficultyModifier >= 20) :
+	if(System.difficultyModifier >= 30) :
 		print("Puffers added!") 
 		System.pufferCap = 2
 	
 	if(System.difficultyModifier >= 50) : 
 		print("Incoming Group 3!")
 		spawnGroup3.activateGroup()
+	
+	if(System.difficultyModifier >= 70) : 
+		print("Incoming Group 4!")
+		spawnGroup4.activateGroup()
 		
 	difficultyTimer.start(System.difficultyPeriod)
 	get_tree().call_group_flags(2, 'Enemy', 'updateSpeed')

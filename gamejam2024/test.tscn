@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://t7cajjeta5k6" path="res://scenes/wall.tscn" id="4_r12t7"]
 [ext_resource type="PackedScene" uid="uid://rfli5fbso7gy" path="res://scenes/spawner.tscn" id="5_87bdc"]
 [ext_resource type="PackedScene" uid="uid://br0cvu74yhcoh" path="res://scenes/scoreboard.tscn" id="5_qsoqg"]
-[ext_resource type="AudioStream" uid="uid://cylyktbbw22b1" path="res://audio/ProfessionalSoundEditMix1.wav" id="6_5yvt3"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="6_lk2y2"]
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
+[ext_resource type="AudioStream" uid="uid://djvogs81a54v0" path="res://audio/background.wav" id="8_uvb2m"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 [ext_resource type="Script" path="res://spawn_group.gd" id="9_ovaps"]
 
@@ -26,13 +26,12 @@ position = Vector2(584, 371)
 [node name="MainCamera" type="Camera2D" parent="."]
 script = ExtResource("6_lk2y2")
 
-[node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_5yvt3")
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_uvb2m")
 volume_db = -20.0
 autoplay = true
 script = ExtResource("9_3l5fu")
-maxDb = -30
-minDb = -60
+maxDb = -20
 
 [node name="DifficultyTimer" type="Timer" parent="."]
 
@@ -62,17 +61,7 @@ position = Vector2(-6, -1)
 fish_direction = Vector2(-1, 0)
 isActive = false
 
-[node name="Spawner_R2" parent="SpawnGroup_L1" instance=ExtResource("5_87bdc")]
-position = Vector2(-6, -1)
-fish_direction = Vector2(-1, 0)
-isActive = false
-
 [node name="Spawner_L1" parent="SpawnGroup_L1" instance=ExtResource("5_87bdc")]
-position = Vector2(1152, -8)
-spawnSide = Vector2(-1, 0)
-isActive = false
-
-[node name="Spawner_L2" parent="SpawnGroup_L1" instance=ExtResource("5_87bdc")]
 position = Vector2(1152, -8)
 spawnSide = Vector2(-1, 0)
 isActive = false
@@ -80,16 +69,29 @@ isActive = false
 [node name="SpawnGroup_L2" type="Node" parent="."]
 script = ExtResource("9_ovaps")
 
-[node name="Spawner_D1" parent="SpawnGroup_L2" instance=ExtResource("5_87bdc")]
+[node name="Spawner_R2" parent="SpawnGroup_L2" instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
-fish_direction = Vector2(0, -1)
-spawnSide = Vector2(0, 1)
+fish_direction = Vector2(-1, 0)
+isActive = false
+
+[node name="Spawner_L2" parent="SpawnGroup_L2" instance=ExtResource("5_87bdc")]
+position = Vector2(1152, -8)
+spawnSide = Vector2(-1, 0)
 isActive = false
 
 [node name="SpawnGroup_L3" type="Node" parent="."]
 script = ExtResource("9_ovaps")
 
-[node name="Spawner_U1" parent="SpawnGroup_L3" instance=ExtResource("5_87bdc")]
+[node name="Spawner_D1" parent="SpawnGroup_L3" instance=ExtResource("5_87bdc")]
+position = Vector2(-6, -1)
+fish_direction = Vector2(0, -1)
+spawnSide = Vector2(0, 1)
+isActive = false
+
+[node name="SpawnGroup_L4" type="Node" parent="."]
+script = ExtResource("9_ovaps")
+
+[node name="Spawner_U1" parent="SpawnGroup_L4" instance=ExtResource("5_87bdc")]
 position = Vector2(-6, -1)
 fish_direction = Vector2(0, 1)
 spawnSide = Vector2(0, -1)
