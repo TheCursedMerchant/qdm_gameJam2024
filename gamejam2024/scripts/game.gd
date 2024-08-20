@@ -45,7 +45,7 @@ func on_difficulty_timeout() :
 		print("Hunters added!") 
 		System.hunterCap = 1
 		
-	if(System.difficultyModifier >= 20) :
+	if(System.difficultyModifier >= 30) :
 		print("Puffers added!") 
 		System.pufferCap = 2
 	

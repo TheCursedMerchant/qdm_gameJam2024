@@ -14,9 +14,8 @@ var starting_position_range = randi_range(-250,0)
 @export var isActive := true
 @export var isHunterActive := false
 @export var spawnIndex : int
-@export var basicFishChance := .75
-@export var hunterFishChance := 0.1
-@export var pufferFishChance := 0.2
+@export var hunterFishChance := 0.2
+@export var pufferFishChance := 0.1
 
 @onready var spawn_timer := $Timer
 
@@ -80,16 +79,15 @@ func spawn_fish(scene : PackedScene, flip_v := true) -> Fish:
 	return new_fish
 	
 func getRandomFishIndex() -> int :
-	var index = randi_range(0, fish_scenes.size() - 1)
+	var roll = randf_range(0, 1)
+	var index = 0
 	
-	if (index == 1 && System.canSpawnHunter()) : 
-		System.activeHunters += 1
-	elif(index == 2 && System.canSpawnPuffer()) : 
-		System.activePuffers += 1
-	else : 
-		index = 0
+	if(System.canSpawnPuffer() && roll <= pufferFishChance) : 
+		index = 2
+	elif(System.canSpawnHunter() && roll <= hunterFishChance) : 
+		index = 1
 		
 	return index
-	
+
 func deactivate():
 	spawn_timer.stop()
