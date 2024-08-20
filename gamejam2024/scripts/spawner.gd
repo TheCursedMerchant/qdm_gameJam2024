@@ -58,7 +58,7 @@ func _on_timer_timeout() -> void:
 	
 	spawnPool.call_deferred("addAtPosition",
 		spawnPosition, 
-		func() : return spawn_fish(fish_scenes[index], index != 2),
+		func() : return spawn_fish(fish_scenes[index], index == 0),
 		func() : )
 
 func spawn_fish(scene : PackedScene, flip_v := true) -> Fish: 

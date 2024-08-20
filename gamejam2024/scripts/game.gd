@@ -24,6 +24,7 @@ func _process(_delta) -> void :
 		get_tree().quit(0)
 		
 	if(Input.is_action_just_pressed("ui_reset")) : 
+		System.resetDisplayParams()
 		get_tree().reload_current_scene()
 		
 func on_difficulty_timeout() : 
