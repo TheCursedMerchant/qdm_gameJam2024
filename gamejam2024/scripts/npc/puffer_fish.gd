@@ -17,11 +17,12 @@ func _physics_process(delta: float) -> void:
 	
 # The movement of the fish.
 func fish_movement(delta):
-	speed = 100
-	global_position += position.direction_to(player.position) * speed * delta
-	var player_distance = position.distance_to(player.position) # 200 seems to be a good distance
+	var moveDirection = global_position.direction_to(player.global_position)
+	var player_distance = global_position.distance_to(player.global_position) # 200 seems to be a good distance
 	if player_distance <= 400.0001:
 		attack()
+	sprite.flip_h = moveDirection.x < 0
+	global_position += moveDirection * speed * delta
 
 func addPufferStinger(moveDirection: Vector2) -> PufferStinger:
 	var attackStinger = stingerScene.instantiate()
@@ -45,3 +46,7 @@ func attack():
 		stingerPool.addAtPosition(global_position,
 			func(): return addPufferStinger(target_direction),
 			func(): reactivatePufferStinger(target_direction))
+	
+func deactivate() : 
+	super.deactivate()
+	System.activePuffers -= 1

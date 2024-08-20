@@ -50,3 +50,5 @@ maxDb = 0
 
 [node name="Swallowfish" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_lcnen")
+script = ExtResource("5_hf6m6")
+maxDb = -10

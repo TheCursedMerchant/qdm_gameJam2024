@@ -3,22 +3,20 @@
 [ext_resource type="Script" path="res://scripts/npc/puffer_fish.gd" id="1_7fxwi"]
 [ext_resource type="Texture2D" uid="uid://b401videw851o" path="res://assets/art/pufferfish.png" id="2_hunvl"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bp1he"]
-radius = 54.5023
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nctmb"]
+size = Vector2(113, 93)
 
 [node name="PufferFish" type="Area2D" groups=["Enemy"]]
 script = ExtResource("1_7fxwi")
-speed = 100.0
+speed = 200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_hunvl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, -3)
-shape = SubResource("CircleShape2D_bp1he")
+position = Vector2(-3.5, -3.5)
+shape = SubResource("RectangleShape2D_nctmb")
 
 [node name="HitStopTimer" type="Timer" parent="."]
 
 [node name="SquishTimer" type="Timer" parent="."]
-
-[node name="CooldownTimer" type="Timer" parent="."]

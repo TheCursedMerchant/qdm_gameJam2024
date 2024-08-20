@@ -27,5 +27,7 @@ func _process(_delta) -> void :
 		get_tree().reload_current_scene()
 		
 func on_difficulty_timeout() : 
-	System.difficultyModifier += 0.1
+	System.difficultyModifier += 1.0
+	print("Current difficulty level : ", System.difficultyModifier)
 	difficultyTimer.start(System.difficultyPeriod)
+	get_tree().call_group_flags(2, 'Enemy', 'updateSpeed')
