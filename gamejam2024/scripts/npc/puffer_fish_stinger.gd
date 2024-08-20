@@ -5,10 +5,11 @@ class_name PufferStinger
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var collisionShape : CollisionShape2D = $CollisionShape2D
 
-@export var projectile_speed = 100.00
+@export var projectile_speed = 1000.00
 var direction := Vector2.RIGHT
-var isActive := true
 var size_scale := Vector2.ONE
+var isActive := true
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,9 +29,9 @@ func reactivate():
 	isActive = true
 	lifespan.start(2)
 
-func _on_area_entered(area: Area2D) -> void :
-	if(area.is_in_group("Player")) :
-		area.take_damage()
+func _on_area_entered(character: CharacterBody2D) -> void :
+	if(character.is_in_group("Player")) :
+		character.take_damage()
 		
 func updateScale(_scale : Vector2) :
 	size_scale = _scale * 2
