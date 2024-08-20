@@ -12,29 +12,27 @@ var foodPool := ScenePool.new(2)
 var isSplit := false
 var randomizeTexture := true
 
-
 func _ready() -> void :
-	experience = 10
 	if (randomizeTexture) : 
 		sprite.texture = GameRes.get_random_texture()
-		
-	var size_scale_value = randf_range(0.25, 4)
+	var scaleModifier = System.difficultyModifier / 100 
+	var size_scale_value = randf_range(0.25, 4 + scaleModifier)
 	size_scale = Vector2(size_scale_value,size_scale_value)	
 	squishTimer.connect("timeout", on_squish_timeout)
+	
 	super._ready()
 
 func _physics_process(delta: float) -> void :
 	if(isActive) : 
 		global_position += (direction * speed) * delta
 		
-	#sprite.scale.x = lerp(sprite.scale.x, size_scale.x, 0.2)
-	#sprite.scale.y = lerp(sprite.scale.y, size_scale.y, 0.2)
-		
 func reactivate() :
 	isActive = true
 	var size_scale_value = randf_range(0.25, 4)
-	sprite.texture = GameRes.get_random_texture()
-	updateSize(Vector2(size_scale_value,size_scale_value))
+	if (randomizeTexture) : 
+		sprite.texture = GameRes.get_random_texture()
+	var scaleModifier = System.difficultyModifier / 100 
+	updateSize(Vector2(size_scale_value,size_scale_value + scaleModifier))
 	
 func take_damage() :
 	sprite.scale += Vector2(-0.6 , 0.75)
@@ -60,4 +58,7 @@ func reactivateFood() :
 	
 func on_squish_timeout() : 
 	deactivate()
+	
+func updateSpeed(): 
+	speed *= 1 + (System.difficultyModifier / 100)
 	
