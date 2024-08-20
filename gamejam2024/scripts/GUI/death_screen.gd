@@ -12,7 +12,7 @@ func display_death():
 	get_tree().call_group('Spawner','deactivate')
 	self.visible = true
 	messages.text = 'You have been eaten.'
-	final_score.text = "Final Score: " + str(System.score)
+	final_score.text = "Final Score: " + str(System.score * System.stomachCapacity) 
 
 func _on_restart_pressed() -> void:
 	System.resetDisplayParams()

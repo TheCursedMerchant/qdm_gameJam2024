@@ -38,10 +38,11 @@ func _process(_delta) -> void :
 		System.resetDisplayParams()
 		get_tree().reload_current_scene()
 		
+	#print(System.activePuffers)
+		
 func on_difficulty_timeout() : 
 	System.difficultyModifier += 1.0
 	
-
 	if(System.difficultyModifier == 8) : 
 		spawnGroup2.activateGroup()
 		emit_signal("levelup")

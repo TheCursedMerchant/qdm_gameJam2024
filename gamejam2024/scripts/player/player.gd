@@ -169,9 +169,9 @@ func addWaterMissle(moveDirection : Vector2) -> WaterMissile :
 func reactivateWaterMissile( moveDirection : Vector2 ) :
 	var waterMissile = waterMissilePool.getLastScene()
 	waterMissile.direction = moveDirection
-	waterMissile.getLastScene().rotation = Vector2.RIGHT.angle_to(moveDirection)
-	waterMissile.getLastScene().isActive = true
-	waterMissile.getLastScene().updateScale(scale_size)
+	waterMissile.rotation = Vector2.RIGHT.angle_to(moveDirection)
+	waterMissile.isActive = true
+	waterMissile.updateScale(scale_size)
 	
 func grow(rate: float) -> void :
 	var growthVector = scale_size + Vector2(rate, rate)
@@ -233,7 +233,6 @@ func eat(growth_value : float):
 		if (isFull()) : 
 			digestTimer.start(digestTime)
 	
-		
 
 func isFull() : 
 	return System.stomachSize >= System.stomachCapacity

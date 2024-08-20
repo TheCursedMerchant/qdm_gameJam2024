@@ -51,7 +51,6 @@ func attack():
 	canAttack = false
 	coolDowntimer.start(attackCooldown)
 	var cardinal_direction = [Vector2.UP, Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT]
-	#var target_direction = position.direction_to(player.position)
 	for target_direction in cardinal_direction:
 		stingerPool.addAtPosition(global_position,
 			func(): return addPufferStinger(target_direction),
