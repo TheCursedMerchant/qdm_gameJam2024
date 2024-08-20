@@ -9,6 +9,7 @@ var stingerPool = ScenePool.new(6)
 var canAttack := true
 
 @onready var coolDowntimer : Timer = $CooldownTimer 
+@onready var attackSFX = $fishAttack
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,7 +33,7 @@ func fish_movement(delta):
 
 func addPufferStinger(moveDirection: Vector2) -> PufferStinger:
 	var attackStinger = stingerScene.instantiate()
-	
+	attackSFX.play()
 	attackStinger.direction = moveDirection
 	attackStinger.rotation = Vector2.RIGHT.angle_to(moveDirection)
 	get_tree().root.add_child(attackStinger)
