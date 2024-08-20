@@ -44,7 +44,7 @@ func notifyLevel():
 			
 		elif System.difficultyModifier == 35:
 			levelmessage.text = 'Birdsoul!'
-			notificationtimer.start(1)
+			notificationtimer.start(0.5)
 			self.visible = true
 
 func on_death():

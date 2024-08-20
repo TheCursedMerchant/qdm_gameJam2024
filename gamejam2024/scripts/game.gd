@@ -38,8 +38,6 @@ func _process(_delta) -> void :
 		System.resetDisplayParams()
 		get_tree().reload_current_scene()
 		
-	#print(System.activePuffers)
-		
 func on_difficulty_timeout() : 
 	System.difficultyModifier += 1.0
 	
@@ -48,11 +46,11 @@ func on_difficulty_timeout() :
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier == 10) :
-		System.hunterCap = 1
+		System.huntersSpawnable = true
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier == 15) :
-		System.pufferCap = 2
+		System.puffersSpawnable = true
 		emit_signal("levelup")
 		
 	if(System.difficultyModifier == 20) : 

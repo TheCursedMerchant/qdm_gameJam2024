@@ -13,6 +13,8 @@ var foodPool := ScenePool.new(2)
 var isSplit := false
 var randomizeTexture := true
 
+signal fish_dead(fish: Fish)
+
 func _ready() -> void :
 	if (randomizeTexture) : 
 		sprite.texture = GameRes.get_random_texture()
@@ -25,7 +27,14 @@ func _ready() -> void :
 
 func _physics_process(delta: float) -> void :
 	if(isActive) : 
-		global_position += (direction * speed) * delta
+		fish_movement(delta)
+		
+func deactivate() : 
+	super.deactivate()
+	emit_signal("fish_dead", self)
+	
+func fish_movement(delta) : 
+	global_position += (direction * speed) * delta
 		
 func reactivate() :
 	isActive = true

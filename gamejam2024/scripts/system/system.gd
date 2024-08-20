@@ -18,32 +18,21 @@ var stomachCapacity = 1
 var player_body : CharacterBody2D
 
 # Spawn Config
-var hunterCap = 0
-var pufferCap = 0
-var activeHunters = 0
-var activePuffers = 0
+var huntersSpawnable = false
+var puffersSpawnable = false
 var difficultyModifier := 0.0
 var difficultyPeriod := 10.0
-
-func canSpawnHunter() -> bool : 
-	return activeHunters < hunterCap
-	
-func canSpawnPuffer() -> bool : 
-	return activePuffers < pufferCap
 
 func resetDisplayParams() : 
 	score = 0
 	stomachSize = 0
-	activeHunters = 0
-	activePuffers = 0
-	hunterCap = 0
-	pufferCap = 0
 	difficultyModifier = 0
 	stomachCapacity = 1
+	huntersSpawnable = false
+	puffersSpawnable = false
 
 func getRemainingXp() -> int : 
 	return evolve_xp - player_xp
-	
 	
 const HIT_SHAKE_DURATION := 0.5
 const HIT_SHAKE_FREQUENCY := 6.0

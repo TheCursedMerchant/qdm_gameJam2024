@@ -22,10 +22,7 @@ func _ready() -> void:
 	randomizeTexture = false
 	super._ready()
 
-func _physics_process(delta: float) -> void:
-	fish_movement(delta)
-
-func fish_movement(delta):
+func fish_movement(delta) : 
 	var moveDirection = global_position.direction_to(player.global_position)
 	var player_distance = global_position.distance_to(player.global_position)
 	var currentSize = sprite.get_rect().size * sprite.scale
@@ -54,7 +51,6 @@ func _on_body_entered_hunter(body: Node2D):
 			
 func deactivate() : 
 	super.deactivate()
-	System.activeHunters -= 1
 
 func on_timer_timeout(): 
 	canHunt = true

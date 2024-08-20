@@ -29,7 +29,7 @@ func reactivate() :
 	lifeTimeTimer.start(5.0)
 
 func _on_area_entered(area: Area2D) -> void :
-	if(area.is_in_group("Enemy") && !area.isSplit) :
+	if(area.is_in_group("Enemy") && !area.isSplit && isActive) :
 		hitCallback.call()
 		area.take_damage()
 

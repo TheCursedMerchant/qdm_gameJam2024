@@ -17,11 +17,7 @@ func _ready() -> void:
 	randomizeTexture = false
 	super._ready()
 	player = System.player_body
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	fish_movement(delta)
-	
+
 # The movement of the fish.
 func fish_movement(delta):
 	var moveDirection = global_position.direction_to(player.global_position)
@@ -58,7 +54,6 @@ func attack():
 	
 func deactivate() : 
 	super.deactivate()
-	System.activePuffers -= 1
 	
 func onCooldownTimeout():
 	canAttack = true 
