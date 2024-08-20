@@ -24,6 +24,7 @@ extends CharacterBody2D
 @onready var attack = $PlayerAttack
 @onready var digestTimer : Timer = $DigestTimer
 @onready var swallow = $Swallowfish
+@onready var youDie = $PlayerDies
 
 var fleshChunkScene := preload("res://scenes/flesh_chunk.tscn")
 var fleshChunkPool := ScenePool.new(10)
@@ -205,6 +206,7 @@ func take_damage() :
 	else :  
 		playerState = System.PLAYER_STATES.DEAD
 		emit_signal("death")
+		youDie.play()
 
 func eat(growth_value : float): 
 	emit_signal("damage")
