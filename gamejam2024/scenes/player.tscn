@@ -55,5 +55,3 @@ stream = ExtResource("8_lcnen")
 [node name="PlayerDies" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_ypctg")
 script = ExtResource("5_hf6m6")
-
-[connection signal="child_entered_tree" from="PlayerDies" to="." method="_on_player_dies_child_entered_tree"]
