@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b8p7jqgs2jukf"]
+[gd_scene load_steps=12 format=3 uid="uid://b8p7jqgs2jukf"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_3yksk"]
 [ext_resource type="PackedScene" uid="uid://bjo41ejls2sqx" path="res://scenes/player.tscn" id="1_okob1"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dckaow6kdj6h1" path="res://scenes/death.tscn" id="7_ib807"]
 [ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="9_3l5fu"]
 [ext_resource type="Script" path="res://spawn_group.gd" id="9_ovaps"]
+[ext_resource type="PackedScene" uid="uid://d3mfuite4p7bt" path="res://scenes/bubble.tscn" id="11_iovbq"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3yksk")
@@ -97,3 +98,17 @@ position = Vector2(-6, -1)
 fish_direction = Vector2(0, 1)
 spawnSide = Vector2(0, -1)
 isActive = false
+
+[node name="Bubbles" type="Node" parent="."]
+
+[node name="b_1" parent="Bubbles" instance=ExtResource("11_iovbq")]
+position = Vector2(100, 1300)
+
+[node name="b_2" parent="Bubbles" instance=ExtResource("11_iovbq")]
+position = Vector2(500, 1200)
+
+[node name="b_3" parent="Bubbles" instance=ExtResource("11_iovbq")]
+position = Vector2(1400, 1250)
+
+[node name="b_4" parent="Bubbles" instance=ExtResource("11_iovbq")]
+position = Vector2(1800, 1150)

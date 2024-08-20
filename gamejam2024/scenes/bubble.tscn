@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3mfuite4p7bt"]
+
+[ext_resource type="Script" path="res://scripts/GUI/bubble.gd" id="1_0huq4"]
+[ext_resource type="Texture2D" uid="uid://b3o0fifv1ts05" path="res://assets/art/spr_bubble_1.png" id="1_8rctv"]
+
+[node name="Bubble" type="Sprite2D"]
+texture = ExtResource("1_8rctv")
+script = ExtResource("1_0huq4")
+
+[node name="Toggle" type="Timer" parent="."]
+wait_time = 0.5
