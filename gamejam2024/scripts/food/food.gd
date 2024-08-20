@@ -21,6 +21,10 @@ func _ready() -> void :
 	connect("body_entered", _on_body_entered)
 	hitStopTimer.connect("timeout", func() : Engine.time_scale = 1.0)
 	updateSize(size_scale)
+	
+func _physics_process(delta: float) -> void:
+	if(isActive) : 
+		global_position.y -= 100 * delta
 
 # Compare Player size to Food size and determine 
 # if food is eaten or player is eaten
