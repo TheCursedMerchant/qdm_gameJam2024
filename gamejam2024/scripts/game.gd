@@ -4,12 +4,14 @@ extends Node2D
 @onready var camera : MainCamera = $MainCamera
 @onready var scoreboard = $CanvasLayer/Scoreboard
 @onready var death_screen = $CanvasLayer/Death
+@onready var notifications = $CanvasLayer/LevelNotification
 @onready var difficultyTimer = $DifficultyTimer
 @onready var spawnGroup1 : SpawnGroup = $SpawnGroup_L1
 @onready var spawnGroup2 : SpawnGroup = $SpawnGroup_L2
 @onready var spawnGroup3 : SpawnGroup = $SpawnGroup_L3
 @onready var spawnGroup4 : SpawnGroup = $SpawnGroup_L4
 
+signal levelup
 
 func _ready() -> void:
 	# Player 
@@ -17,12 +19,14 @@ func _ready() -> void:
 	player.connect("charge_release", camera.resetZoom)
 	player.connect("damage", camera.apply_shake)
 	player.connect("death", func():scoreboard.hide())
+	player.connect("death", func():notifications.hide())
 	player.connect("death", death_screen.display_death)
 	
 	#Timer
 	difficultyTimer.connect("timeout", on_difficulty_timeout)
 	difficultyTimer.start(System.difficultyPeriod)
 	
+	self.connect("levelup", notifications.levelCheck)
 	spawnGroup1.activateGroup()
 	
 func _process(_delta) -> void : 
@@ -38,25 +42,30 @@ func on_difficulty_timeout() :
 	
 	print("Current difficulty level : ", System.difficultyModifier)
 	
-	if(System.difficultyModifier >= 10) : 
+	if(System.difficultyModifier == 8) : 
 		print("Incoming Group 2!")
 		spawnGroup2.activateGroup()
+		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 20) :
+	if(System.difficultyModifier >= 10) :
 		print("Hunters added!") 
 		System.hunterCap = 1
+		emit_signal("levelup")
 		
-	if(System.difficultyModifier >= 30) :
+	if(System.difficultyModifier >= 15) :
 		print("Puffers added!") 
 		System.pufferCap = 2
-	
-	if(System.difficultyModifier >= 50) : 
+		emit_signal("levelup")
+		
+	if(System.difficultyModifier >= 20) : 
 		print("Incoming Group 3!")
 		spawnGroup3.activateGroup()
-	
-	if(System.difficultyModifier >= 70) : 
+		emit_signal("levelup")
+		
+	if(System.difficultyModifier >= 35) : 
 		print("Incoming Group 4!")
 		spawnGroup4.activateGroup()
+		emit_signal("levelup")
 		
 	difficultyTimer.start(System.difficultyPeriod)
 	get_tree().call_group_flags(2, 'Enemy', 'updateSpeed')
