@@ -30,13 +30,10 @@ func _on_body_entered(body: Node2D) -> void:
 		var player : Player = body
 		var body_sprite_size = player.sprite.get_rect().size * player.scale_size
 		if(friendly or ( sprite_size <=  body_sprite_size and player.playerState == System.PLAYER_STATES.IDLE )) :
-			if (friendly == false):
+			if (!is_instance_of(self, FleshChunk)):
 				System.score += 1
-			if(player.isFull()) :
-				player.take_damage()
-			else :  
-				player.eat(growth_value)
-				
+			
+			player.eat(growth_value)
 			deactivate()
 		elif(!player.isRecovery) :
 			player.grow(-shrink_value)
