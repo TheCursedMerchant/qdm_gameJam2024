@@ -1,17 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://boidyiiht2uev"]
+[gd_scene load_steps=5 format=3 uid="uid://boidyiiht2uev"]
 
 [ext_resource type="Script" path="res://scripts/npc/hunter_fish.gd" id="1_6m0ao"]
-[ext_resource type="Texture2D" uid="uid://dv6c3vcs2urbc" path="res://POC/test_fish_sprite.png" id="2_ly0t5"]
+[ext_resource type="Texture2D" uid="uid://b5sxvm8ioaecq" path="res://assets/art/hunterfish2.png" id="2_o1l2n"]
+[ext_resource type="Texture2D" uid="uid://uhu6vpw3y4cr" path="res://assets/art/hunterfish1.png" id="3_8veub"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ge781"]
+size = Vector2(117, 91)
 
 [node name="HunterFish" type="Area2D" groups=["Enemy"]]
 script = ExtResource("1_6m0ao")
+speed = 400.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_ly0t5")
+texture = ExtResource("3_8veub")
+
+[node name="AggroSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_o1l2n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, -5.5)
 shape = SubResource("RectangleShape2D_ge781")
 
 [node name="HuntTimer" type="Timer" parent="."]

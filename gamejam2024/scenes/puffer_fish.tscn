@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpcqnxfpoe46k"]
+[gd_scene load_steps=6 format=3 uid="uid://ik18lqcj7xm5"]
 
 [ext_resource type="Script" path="res://scripts/npc/puffer_fish.gd" id="1_7fxwi"]
 [ext_resource type="Texture2D" uid="uid://b401videw851o" path="res://assets/art/pufferfish.png" id="2_hunvl"]
+[ext_resource type="AudioStream" uid="uid://cb8oa50tlu86a" path="res://audio/SpikeAttack.wav" id="3_hwdoi"]
+[ext_resource type="Script" path="res://scripts/system/sound_effect.gd" id="4_xdgk1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bp1he"]
 radius = 54.5023
@@ -22,3 +24,9 @@ shape = SubResource("CircleShape2D_bp1he")
 [node name="SquishTimer" type="Timer" parent="."]
 
 [node name="CooldownTimer" type="Timer" parent="."]
+
+[node name="fishAttack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hwdoi")
+volume_db = -20.0
+script = ExtResource("4_xdgk1")
+maxDb = -15

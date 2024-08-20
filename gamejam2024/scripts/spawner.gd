@@ -91,3 +91,5 @@ func getRandomFishIndex() -> int :
 		
 	return index
 	
+func deactivate():
+	spawn_timer.stop()

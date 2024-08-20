@@ -1,9 +1,11 @@
 class_name Hunter
 extends "res://scripts/npc/fish.gd"
 
-@export var huntingSpeed = 400
+@export var huntingSpeed = 10000
 
 @onready var huntingTimer:= $HuntTimer
+@onready var baseSprite := $Sprite2D
+@onready var aggroSprite := $AggroSprite
 
 # The fish does not immediately start hunting the player.
 var isHunting := false
@@ -16,12 +18,17 @@ func _ready() -> void:
 	player = System.player_body
 
 func _physics_process(delta: float) -> void:
+	if isHunting:
+		aggroSprite.show()
+		baseSprite.hide()
+	else:
+		aggroSprite.hide()
+		baseSprite.show()
 	fish_movement(delta)
 
 func fish_movement(delta):
-	speed=200
 	if isHunting:
-		global_position += position.direction_to(player.position) * huntingSpeed * delta
+		global_position += global_position.direction_to(player.position) * huntingSpeed * delta
 	else:
 		global_position += direction * speed * delta
 
@@ -37,6 +44,7 @@ func _on_body_entered_hunter(body: Node2D):
 		if (!player.isRecovery):
 			isHunting = false
 			huntingTimer.start()
+			player.take_damage()
 			
 func deactivate() : 
 	super.deactivate()
