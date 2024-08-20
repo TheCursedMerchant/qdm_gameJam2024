@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		
 		System.PLAYER_STATES.IDLE :  
 			if(Input.is_action_just_pressed("left_click")) :
-				if(isFull()) : 
+				if(isFull() or System.stomachSize >= 2) : 
 					playerState = System.PLAYER_STATES.CHARGE
 				else :
 					emit_signal("damage")
@@ -118,7 +118,7 @@ func _physics_process(delta: float) -> void:
 				
 		System.PLAYER_STATES.DASH : 
 			velocity += (-pointDirection * dashSpeed * dashCharge).round()
-			System.stomachSize = 0
+			System.stomachSize = max(System.stomachSize - 2, 0) 
 			dashCharge = 0
 			Engine.time_scale = 1.0
 			playerState = System.PLAYER_STATES.IDLE
@@ -138,7 +138,6 @@ func _physics_process(delta: float) -> void:
 	velocity.y = min(velocity.y + (scale_size.y * gravity), maxSpeed)
 	
 	move_and_slide()
-
 
 func addChunk(moveDirection : Vector2) -> FleshChunk : 
 	var newChunkInstance: FleshChunk = fleshChunkScene.instantiate()
@@ -213,9 +212,14 @@ func eat(growth_value : float):
 	emit_signal("damage")
 	eating.play()
 	grow(growth_value)
-	System.stomachSize += 1
-	if (isFull()) : 
-		digestTimer.start(digestTime)
+	if(isFull()) : 
+		take_damage()
+	else : 
+		System.stomachSize += 1
+		if (isFull()) : 
+			digestTimer.start(digestTime)
+	
+		
 
 func isFull() : 
 	return System.stomachSize >= System.stomachCapacity
