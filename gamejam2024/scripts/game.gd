@@ -41,7 +41,7 @@ func _process(_delta) -> void :
 func on_difficulty_timeout() : 
 	System.difficultyModifier += 1.0
 	
-	if(System.difficultyModifier == 8) : 
+	if(System.difficultyModifier == 6) : 
 		spawnGroup2.activateGroup()
 		emit_signal("levelup")
 		
