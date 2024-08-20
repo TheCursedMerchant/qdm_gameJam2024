@@ -34,7 +34,7 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 18
-text = "Welcome to our game jam submission!  \"Calming-Fish-Game\"
+text = "Welcome to our game jam submission!  \"Calming Fish Game\"
 
 1. Move your fish with the W, A, S, and D keys.
 2. Grow larger by eating smaller fish, and store food in your stomach. Careful, attempting to eat an additional
