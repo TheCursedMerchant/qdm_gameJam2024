@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cydqjfmh85xwq"]
+[gd_scene load_steps=2 format=3 uid="uid://baave1ykykn6g"]
 
 [ext_resource type="Script" path="res://scripts/GUI/level_notification.gd" id="1_s5onj"]
 
